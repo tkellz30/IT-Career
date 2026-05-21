@@ -1,4 +1,4 @@
-# IT Career Portfolio — Trea Kelly
+# IT Career Portfolio — Michael T. Kelly
 
 Portfolio repository documenting hands-on IT work, homelab infrastructure, networking labs, and technical documentation.
 
@@ -55,8 +55,9 @@ All screenshots in this repository have been reviewed for sensitive information.
 
 ---
 
-*Trea Kelly — IT support professional based in Pensacola, FL*
+*Michael T. Kelly — IT support professional based in Pensacola, FL*
 
+**Preferred name:** Trea
 **Contact:** michaeltkellyiii@gmail.com
 **GitHub:** github.com/tkellz30/IT-Career
 **LinkedIn:** linkedin.com/in/trea-kelly-03b0352b4
