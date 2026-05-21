@@ -1,12 +1,10 @@
-# Interview Answers — Homelab Project
+# Project Notes — Linux Homelab
 
-Prepared talking points for common interview questions about this project. For resume and LinkedIn copy, see [career-snippets.md](career-snippets.md). For technical deep-dives, see [interview-prep/technical-questions.md](interview-prep/technical-questions.md).
+Explanations and talking points for this project. For resume/LinkedIn copy, see [career-snippets.md](career-snippets.md). For technical Q&A, see [technical-qa/technical-questions.md](technical-qa/technical-questions.md).
 
 ---
 
-## The Core Answer (30–45 seconds)
-
-> Practice this out loud until it sounds natural — not memorized.
+## Project Overview (30–45 seconds)
 
 "I built a Linux homelab on repurposed physical hardware to get experience I couldn't get from studying alone. I installed Ubuntu Server, configured SSH and Tailscale for remote access, and deployed Docker containers — Portainer for container management and Jellyfin as a self-hosted media server. I also set up persistent storage with fstab and configured Samba for file sharing across my local network. Most of the learning came from troubleshooting real failures — boot issues, permission errors, container conflicts. It's a working environment I actively use and maintain."
 
@@ -14,9 +12,7 @@ Prepared talking points for common interview questions about this project. For r
 
 ## Why Did You Build This?
 
-> Honest answer — don't oversell it.
-
-"I wanted hands-on experience with tools that actually show up in IT jobs — Linux, SSH, Docker, remote access, storage. Courses and labs give you a controlled environment. Building something on real hardware where things actually break and you have to fix them teaches you differently. I also wanted something concrete to point to in interviews."
+"I wanted hands-on experience with tools that actually show up in IT jobs — Linux, SSH, Docker, remote access, storage. Courses and labs give you a controlled environment. Building something on real hardware where things actually break and you have to fix them teaches you differently. I also wanted something concrete I could point to as portfolio evidence and actually use day-to-day."
 
 ---
 
@@ -38,15 +34,13 @@ Prepared talking points for common interview questions about this project. For r
 
 ---
 
-## How Is This Relevant to This Role?
+## How Is This Relevant to IT Support Roles?
 
-> Adapt based on the job.
-
-**For helpdesk:**
+**Helpdesk:**
 "A lot of helpdesk work is asking the right questions and knowing where to look when something isn't working. Building this taught me to check service status, read logs, and narrow down whether an issue is hardware, network, or application — before touching anything."
 
-**For junior sysadmin:**
+**Junior sysadmin:**
 "I've done the fundamentals hands-on: Linux administration, SSH, service management with systemctl, Docker, storage configuration, and network troubleshooting. It's a small environment, but the skills transfer directly."
 
-**For NOC/infrastructure support:**
+**NOC/infrastructure support:**
 "This project gave me a troubleshooting methodology I can apply to unfamiliar systems — check the service, check the logs, check the network, check the firewall. That process scales regardless of the environment."

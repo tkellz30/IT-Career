@@ -1,6 +1,6 @@
-# Technical Interview Questions — Homelab Project
+# Technical Q&A — Linux Homelab
 
-Prepared answers to technical questions an interviewer might ask about this project. These are realistic for helpdesk, junior sysadmin, NOC, and infrastructure support roles.
+Technical questions and answers covering the concepts used in this project. Relevant to helpdesk, junior sysadmin, NOC, and infrastructure support roles.
 
 ---
 

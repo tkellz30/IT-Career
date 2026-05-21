@@ -1,4 +1,4 @@
-# Homelab Interview Notes
+# Homelab Concepts and Explanations
 
 ## What is Docker?
 

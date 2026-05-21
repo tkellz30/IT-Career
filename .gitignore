@@ -30,6 +30,17 @@ logs/
 *.tmp
 *.bak
 
+# Archive files
+*.zip
+*.tar.gz
+*.tar
+*.gz
+
+# Windows system files
+desktop.ini
+Desktop.ini
+Thumbs.db
+
 # Raw screenshot dumps — large unorganized batches, not for the repo
 raw-screenshots/
 
@@ -44,3 +55,4 @@ screenshots/edited/
 resume/*.pdf
 resume/*.docx
 resume/desktop.ini
+resume/Trea_Kelly_Remote_Level1_MSP_HelpDesk.md

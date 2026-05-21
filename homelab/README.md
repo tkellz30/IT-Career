@@ -2,7 +2,7 @@
 
 > Self-hosted Linux server built on physical hardware to develop real skills in system administration, remote access, containerization, and storage management.
 
-**Skills demonstrated:** Linux administration · SSH · Docker · Tailscale VPN · Portainer · Samba/SMB · `/etc/fstab` · Ubuntu Server · Git
+**Skills demonstrated:** Linux administration · SSH · Docker · Tailscale VPN · Portainer · Samba/SMB · `/etc/fstab` · Ubuntu Server · Git · Managed Switch CLI · VLAN configuration
 
 ---
 
@@ -17,6 +17,7 @@
 - [Self-Hosted Services](#self-hosted-services)
 - [Storage Configuration](#storage-configuration)
 - [File Sharing](#file-sharing)
+- [Managed Switch / VLAN Lab](#managed-switch--vlan-lab)
 - [Troubleshooting](#troubleshooting)
 - [Lessons Learned](#lessons-learned)
 - [Future Improvements](#future-improvements)
@@ -229,6 +230,56 @@ The share `faststorage` maps to `/mnt/fast-storage` on the server and is mounted
 
 ---
 
+## Managed Switch / VLAN Lab
+
+As an extension of the homelab networking work, I configured a VLAN on a physical managed switch using the serial console CLI — the same workflow used in enterprise and ISP environments.
+
+**Device:** ADTRAN NetVanta 1224ST managed switch
+**Access method:** Serial console via PuTTY (no IP management interface required)
+
+### What Was Done
+
+Connected to the switch over serial, entered privileged exec mode, and used `show` commands to understand the existing configuration before making any changes:
+
+- `show version` — confirmed device model, firmware version, and uptime
+- `show vlan brief` — reviewed existing VLAN assignments across all ports
+- `show interfaces status` — reviewed link state and duplex for all ports
+- Identified `eth 0/1` as an existing trunk port carrying tagged traffic
+
+After reviewing the baseline configuration:
+
+- Created **VLAN 20** and named it `lab`
+- Assigned **eth 0/10** as an untagged access port on VLAN 20
+- Brought the interface up with `no shutdown`
+- Verified VLAN creation and port assignment with `show vlan brief` and `show interfaces status`
+- Saved the configuration with `write memory`
+
+### Commands Used
+
+```
+enable
+show version
+show vlan brief
+show interfaces status
+configure terminal
+vlan 20
+name lab
+exit
+interface eth 0/10
+switchport access vlan 20
+no shutdown
+end
+show vlan brief
+show interfaces status
+write memory
+```
+
+### What This Demonstrates
+
+Working in the switch CLI without a web UI or preconfigured IP address mirrors real-world conditions — managed switches in server rooms and wiring closets are commonly accessed over serial when out-of-band management isn't available. The verify-before-change and verify-after-change workflow (running `show` commands before and after every configuration step) is standard practice in network operations.
+
+---
+
 ## Troubleshooting
 
 These are real problems encountered and resolved during the build. Each one is documented in full in [`docs/troubleshooting-log.md`](docs/troubleshooting-log.md).
@@ -269,7 +320,7 @@ The troubleshooting process used the same tools each time: `systemctl status` to
 - **Monitoring** — Deploy Uptime Kuma or a similar stack to track container health and alert when services go down
 - **Automated backups** — Schedule periodic backups of Docker volumes and configuration files to the `/mnt/fast-storage/backups` directory
 - **Docker Compose** — Migrate container definitions from `docker run` commands to Compose files for reproducibility and easier version control
-- **Network segmentation** — Isolate server traffic with a dedicated VLAN and more restrictive firewall rules
+- **Network segmentation** — Extend the VLAN lab work to isolate server traffic with a dedicated VLAN and more restrictive firewall rules on the router
 - **Storage redundancy** — Evaluate RAID or ZFS for the data drive to protect against drive failure
 - **Reverse proxy** — Add Nginx or Caddy in front of Portainer and Jellyfin for cleaner URLs and centralized TLS
 
@@ -294,11 +345,11 @@ I used AI tools throughout to research error messages and find relevant document
 | `README.md` | This file |
 | `setup-notes.md` | Command reference for each setup phase |
 | `troubleshooting.md` | Issue index and quick diagnostic commands |
-| `interview-answers.md` | Talking points organized by interview question type |
+| `project-notes.md` | Project explanations and talking points |
 | `career-snippets.md` | Resume bullet points and LinkedIn description |
 | `docs/architecture.md` | Network diagram, service map, port table |
 | `docs/troubleshooting-log.md` | Full log: symptom → investigation → fix → lesson |
-| `interview-prep/technical-questions.md` | Q&A for technical interview questions |
+| `technical-qa/technical-questions.md` | Technical Q&A covering concepts used in this project |
 
 ---
 
