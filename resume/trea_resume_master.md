@@ -1,4 +1,4 @@
-# Michael T. Kelly
+# Michael Kelly
 *Preferred name: Trea*
 
 michaeltkellyiii@gmail.com | LinkedIn: linkedin.com/in/trea-kelly-03b0352b4 | GitHub: github.com/tkellz30/IT-Career

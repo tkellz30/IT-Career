@@ -348,4 +348,4 @@ I used AI tools throughout to research error messages and find relevant document
 
 ---
 
-*Built and maintained by Michael T. Kelly — CompTIA Network+ · Security+ · CCNA in progress*
+*Built and maintained by Michael Kelly — CompTIA Network+ · Security+ · CCNA in progress*

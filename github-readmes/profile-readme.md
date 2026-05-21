@@ -97,7 +97,7 @@ I'm not just collecting badges. I'm building evidence of practical skills:
 
 ## Connect
 
-**Michael T. Kelly** · Preferred name: Trea
+**Michael Kelly** · Preferred name: Trea
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/trea-kelly-03b0352b4)
 [![Email](https://img.shields.io/badge/Email-Contact-red?style=flat-square&logo=gmail&logoColor=white)](mailto:michaeltkellyiii@gmail.com)
