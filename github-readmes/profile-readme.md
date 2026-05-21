@@ -98,7 +98,7 @@ I'm not just collecting badges. I'm building evidence of practical skills:
 ## Connect
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-username)
-[![Email](https://img.shields.io/badge/Email-Contact-red?style=flat-square&logo=gmail&logoColor=white)](mailto:tkellz30@gmail.com)
+[![Email](https://img.shields.io/badge/Email-Contact-red?style=flat-square&logo=gmail&logoColor=white)](mailto:michaeltkellyiii@gmail.com)
 
 ---
 

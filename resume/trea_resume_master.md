@@ -1,6 +1,6 @@
 # Michael Kelly
 
-(229) 726-4774 | michaeltkellyiii@gmail.com | LinkedIn: linkedin.com/in/[username] | GitHub: github.com/[username]
+michaeltkellyiii@gmail.com | LinkedIn: linkedin.com/in/trea-kelly-03b0352b4 | GitHub: github.com/tkellz30/IT-Career
 
 ---
 
@@ -68,7 +68,7 @@ GitHub · Markdown · Troubleshooting Logs · Technical Write-Ups · Architectur
 - Configured SSH for encrypted remote terminal access; deployed Tailscale (WireGuard-based VPN overlay) for secure off-network administration without exposing ports to the internet
 - Installed Docker Engine and deployed containerized services: Portainer (container management UI) and Jellyfin (self-hosted media server); resolved port conflicts, volume mount failures, and container permission errors
 - Configured persistent drive mounting using `/etc/fstab` with UUIDs; set up Samba (SMB) for local network file sharing accessible from Windows clients
-- Documented the full build — architecture diagrams, setup commands, an 8-entry troubleshooting log (symptom → investigation → fix → lesson), and interview-ready explanations — on GitHub
+- Documented the full build — architecture diagrams, setup commands, and an 8-entry troubleshooting log (symptom → investigation → fix → lesson) — on GitHub
 
 **Technologies:** Ubuntu Server · Docker · Portainer · Tailscale · SSH · Samba · Bash · Git · GitHub
 

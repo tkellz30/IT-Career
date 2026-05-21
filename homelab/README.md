@@ -21,7 +21,7 @@
 - [Troubleshooting](#troubleshooting)
 - [Lessons Learned](#lessons-learned)
 - [Future Improvements](#future-improvements)
-- [Interview Summary](#interview-summary)
+- [Project Summary](#project-summary)
 
 ---
 
@@ -326,9 +326,7 @@ The troubleshooting process used the same tools each time: `systemctl status` to
 
 ---
 
-## Interview Summary
-
-> For the full Q&A version, see [`interview-prep/technical-questions.md`](interview-prep/technical-questions.md).
+## Project Summary
 
 I built this homelab on repurposed physical hardware to get experience I couldn't get from studying alone. I installed Ubuntu Server, set up SSH and Tailscale for remote access, and deployed Docker containers — Portainer for container management and Jellyfin as a self-hosted media server. I configured a second drive to mount persistently using `/etc/fstab`, organized its storage layout, and set up Samba so Windows machines on my network can access it as a mapped drive.
 
@@ -345,12 +343,9 @@ I used AI tools throughout to research error messages and find relevant document
 | `README.md` | This file |
 | `setup-notes.md` | Command reference for each setup phase |
 | `troubleshooting.md` | Issue index and quick diagnostic commands |
-| `project-notes.md` | Project explanations and talking points |
-| `career-snippets.md` | Resume bullet points and LinkedIn description |
 | `docs/architecture.md` | Network diagram, service map, port table |
 | `docs/troubleshooting-log.md` | Full log: symptom → investigation → fix → lesson |
-| `technical-qa/technical-questions.md` | Technical Q&A covering concepts used in this project |
 
 ---
 
-*Built and maintained by Trae Kelly — CompTIA Network+ · Security+ · CCNA in progress*
+*Built and maintained by Trea Kelly — CompTIA Network+ · Security+ · CCNA in progress*
