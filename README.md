@@ -1,4 +1,4 @@
-# IT Career Portfolio — Trae Kelly
+# IT Career Portfolio — Trea Kelly
 
 Portfolio repository documenting hands-on IT work, homelab infrastructure, networking labs, and technical documentation.
 
@@ -45,7 +45,7 @@ Notes and documentation from networking practice and lab work. Includes VLAN con
 ### Screenshots
 [`screenshots/final/`](screenshots/final/)
 
-Privacy-reviewed screenshots from the homelab environment. Sensitive information (IPs, employer-related browser content) has been blurred or cropped before publishing. See [`screenshots/README.md`](screenshots/README.md) for the full redaction audit.
+Privacy-reviewed screenshots from the homelab environment. Sensitive information (IPs, employer-related browser content) has been blurred or cropped before publishing. See [`screenshots/README.md`](screenshots/README.md) for the full index.
 
 ---
 
@@ -55,5 +55,8 @@ All screenshots in this repository have been reviewed for sensitive information.
 
 ---
 
-*Trae Kelly — IT support professional based in Pensacola, FL*
-*github.com/tkellz30/IT-Career*
+*Trea Kelly — IT support professional based in Pensacola, FL*
+
+**Contact:** michaeltkellyiii@gmail.com
+**GitHub:** github.com/tkellz30/IT-Career
+**LinkedIn:** linkedin.com/in/trea-kelly-03b0352b4
