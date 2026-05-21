@@ -1,0 +1,46 @@
+# Sensitive files — never commit these
+.env
+*.env.*
+secrets/
+credentials/
+*.key
+*.pem
+*.crt
+
+# Config files that may contain local paths or passwords
+smb.conf.local
+docker-compose.override.yml
+
+# OS-generated files
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+.vscode/settings.json
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Raw screenshot dumps — large unorganized batches, not for the repo
+raw-screenshots/
+
+# Screenshot working folders — originals and intermediate edits
+screenshots/Originals/
+screenshots/edited/
+
+# screenshots/final/ is intentionally NOT listed here — keep it tracked
+
+# Resume binary files — old versions, PDFs, Word docs
+# Keep only trea_resume_master.md (the source of truth)
+resume/*.pdf
+resume/*.docx
+resume/desktop.ini
