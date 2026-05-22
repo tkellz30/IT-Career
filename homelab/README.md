@@ -22,6 +22,7 @@
 - [Lessons Learned](#lessons-learned)
 - [Future Improvements](#future-improvements)
 - [Project Summary](#project-summary)
+- [Related Labs](#related-labs)
 
 ---
 
@@ -345,6 +346,17 @@ I used AI tools throughout to research error messages and find relevant document
 | `troubleshooting.md` | Issue index and quick diagnostic commands |
 | `docs/architecture.md` | Network diagram, service map, port table |
 | `docs/troubleshooting-log.md` | Full log: symptom → investigation → fix → lesson |
+| `pihole-dns-filtering-lab/` | Pi-hole + Unbound DNS filtering lab (separate project) |
+
+---
+
+## Related Labs
+
+### Pi-hole DNS Filtering Lab
+
+Network-wide DNS sinkhole running on a Raspberry Pi with Unbound recursive DNS, custom blocklists, and TP-Link Deco mesh integration. Documents DNS flow design, blocklist tuning, AP mode vs. router mode troubleshooting, and validation steps.
+
+→ [View the Pi-hole DNS Filtering Lab](pihole-dns-filtering-lab/README.md)
 
 ---
 

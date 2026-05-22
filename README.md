@@ -15,6 +15,8 @@ Self-hosted Linux server environment built on physical hardware. Documents the f
 
 Technologies: Ubuntu Server · Docker · Portainer · Jellyfin · Tailscale · SSH · Samba · `/etc/fstab` · LVM · Managed Switch CLI · VLAN
 
+Also includes: [Pi-hole DNS Filtering Lab](homelab/pihole-dns-filtering-lab/README.md) — Raspberry Pi DNS sinkhole with Unbound recursive DNS, custom blocklists, and router/mesh troubleshooting.
+
 → [View the homelab README](homelab/README.md)
 
 ---
