@@ -1,3 +1,5 @@
+← [Back to Portfolio](../../README.md) · [Back to Homelab](../README.md)
+
 # Pi-hole DNS Filtering Lab
 
 > Raspberry Pi-based DNS sinkhole with Unbound recursive DNS, custom blocklists, and router/mesh integration — built to develop real skills in network DNS, filtering, and troubleshooting.
@@ -100,17 +102,14 @@ Client Device → Router (DHCP hands out ISP DNS) → ISP or Google/Cloudflare D
 ### After Pi-hole + Unbound
 
 ```mermaid
-graph LR
-    A[Client Device] --> B[Router / Deco Mesh\nAP mode]
-    B --> C[Pi-hole\n192.168.x.x]
-    C -->|Blocked domain| D[Sinkhole\nreturns NXDOMAIN / 0.0.0.0]
-    C -->|Allowed domain| E[Unbound\n127.0.0.1:5335]
-    E --> F[Root DNS Servers]
-    F --> G[Authoritative DNS]
-    G --> E
-    E --> C
-    C --> B
-    B --> A
+flowchart LR
+    A["Client Device"] --> B["Router / Deco Mesh - AP Mode"]
+    B --> C["Pi-hole DNS Filter"]
+    C --> D{"Domain Allowed?"}
+    D -- "No" --> E["Blocked / Sinkholed"]
+    D -- "Yes" --> F["Unbound Recursive DNS"]
+    F --> G["Root DNS Servers"]
+    G --> H["Authoritative DNS"]
 ```
 
 **Key design decisions:**
