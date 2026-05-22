@@ -1,6 +1,6 @@
 # IT Career Portfolio — Michael Kelly
 
-> Hands-on homelab portfolio — Linux servers, Docker containers, DNS filtering, and network configuration. Built on real hardware, documented as I went.
+> Hands-on homelab portfolio — Linux server infrastructure, Docker containers, DNS filtering, and network configuration. Built on real hardware, documented as I went.
 
 **CompTIA Network+** · **CompTIA Security+** · **CCNA in progress**
 
@@ -8,33 +8,40 @@
 
 ## About
 
-I'm an IT support professional based in Pensacola, FL working toward network and systems administration. This repo documents the lab work I do outside of my day job — building an Ubuntu Server from scratch, managing Docker containers, configuring a managed switch over the serial console, and setting up Pi-hole DNS filtering on a Raspberry Pi.
+I'm an IT support professional based in Pensacola, FL working toward network and systems administration. This repo documents the lab work I do outside of my day job — building and running a Linux server, managing Docker containers, configuring networking hardware, and deploying DNS filtering on a Raspberry Pi.
 
-Everything here ran on actual hardware. The troubleshooting logs are real problems I ran into and fixed.
+Everything here ran on actual hardware. The troubleshooting logs are real failures I diagnosed and fixed.
 
-**Preferred name:** Trea  
-**Email:** michaeltkellyiii@gmail.com  
-**LinkedIn:** [linkedin.com/in/trea-kelly-03b0352b4](https://linkedin.com/in/trea-kelly-03b0352b4)  
-**GitHub:** [github.com/tkellz30/IT-Career](https://github.com/tkellz30/IT-Career)
+**Preferred name:** Trea · **Email:** michaeltkellyiii@gmail.com  
+**LinkedIn:** [linkedin.com/in/trea-kelly-03b0352b4](https://linkedin.com/in/trea-kelly-03b0352b4)
 
 ---
 
-## Featured Projects
+## Quick Navigation
+
+| Project | What It Covers |
+|---------|---------------|
+| [Ubuntu Server Homelab →](homelab/README.md) | Ubuntu Server, Docker, Tailscale, Samba, VLAN lab — full writeup with troubleshooting log |
+| [Pi-hole DNS Filtering Lab →](homelab/pihole-dns-filtering-lab/README.md) | Pi-hole + Unbound on Raspberry Pi — DNS sinkhole, blocklist tuning, mesh troubleshooting |
+| [Screenshots →](screenshots/final/) | Portfolio-ready screenshots, all reviewed for sensitive info |
+| [Resume →](resume/trea_resume_master.md) | Current resume |
+
+---
+
+## Projects
 
 ### Ubuntu Server Homelab
 
-A self-hosted server environment built on a repurposed Lenovo desktop running Ubuntu Server. The machine has no monitor or keyboard attached — everything is managed remotely over SSH and Tailscale. It runs Docker containers, serves media through Jellyfin, shares files over SMB, and has a separately mounted NVMe for storage.
+A self-hosted server built on repurposed Lenovo hardware running Ubuntu Server. No monitor, no keyboard — managed entirely over SSH and Tailscale. Currently running Docker containers, serving media through Jellyfin, sharing files over SMB, and backed by a separately mounted NVMe for storage.
 
-**[→ Read the full homelab writeup](homelab/README.md)**
-
-**What's running:**
+**[→ Full documentation: setup notes, architecture, troubleshooting log](homelab/README.md)**
 
 | Service | What It Does |
 |---------|-------------|
-| Docker + Portainer | Container runtime with a browser-based management dashboard |
-| Jellyfin | Self-hosted media server — streams to any device, no subscription |
-| Tailscale | WireGuard VPN that makes the server reachable from anywhere without port forwarding |
-| Samba | NVMe storage accessible as a mapped network drive from Windows |
+| Docker + Portainer | Containerized services with a browser-based management dashboard |
+| Jellyfin | Self-hosted media server — streams to any device on the network |
+| Tailscale | WireGuard VPN overlay — server reachable from anywhere, no port forwarding needed |
+| Samba | NVMe storage accessible as a mapped drive from Windows |
 
 **Architecture:**
 
@@ -69,75 +76,41 @@ A self-hosted server environment built on a repurposed Lenovo desktop running Ub
 
 All remote access routes through Tailscale. No ports are exposed to the public internet.
 
----
-
-#### Docker and Portainer
-
-Docker Engine runs all services as isolated containers instead of installing them directly on the OS. Portainer provides a browser-based dashboard for managing those containers — start, stop, inspect, and remove without SSH-ing in every time.
-
 ![Portainer container dashboard showing Jellyfin as healthy and Portainer running on ports 9000 and 9443](screenshots/final/03-portainer-dashboard.png)
 
-*Both containers up. Jellyfin reports as healthy (Docker health check passing). Accessible at the server's Tailscale address on port 9443.*
+*Portainer dashboard — both containers up. Jellyfin shows as healthy (Docker health check passing).*
 
----
+![SSH login to the esther server showing Ubuntu MOTD with system stats and Tailscale as last login origin](screenshots/final/01-ssh-remote-login.png)
 
-#### Jellyfin Media Server
-
-Jellyfin is a self-hosted alternative to Plex — scans a library path, generates metadata, and streams to any browser or Jellyfin app. The library is stored on the NVMe at `/mnt/fast-storage/media`, keeping media off the OS drive.
-
-![Jellyfin web interface with the Movies library populated and ready to stream](screenshots/final/04-jellyfin-library.png)
-
-*Jellyfin home screen accessed through the browser. Library is populated and streaming from the NVMe. Reachable from any device on the Tailscale network.*
-
----
-
-#### Remote Access with Tailscale
-
-The server runs headless — no monitor, no keyboard. Tailscale creates a WireGuard VPN overlay so it's reachable by hostname from anywhere. Devices authenticate once and stay connected without manual reconnects or firewall rules.
-
-![SSH login to the esther server showing Ubuntu MOTD with system stats and last login origin via Tailscale](screenshots/final/01-ssh-remote-login.png)
-
-*The "Last login from" line in the Ubuntu login banner confirms the previous connection came over Tailscale. System stats show 0.02 load, 10% memory, 31°C.*
-
----
-
-#### Persistent NVMe Storage
-
-The NVMe drive mounts at `/mnt/fast-storage` using a UUID-based entry in `/etc/fstab`. UUIDs are stable — unlike `/dev/sdb`, which can change if drive detection order shifts at boot. The mount survives reboots without any manual steps.
-
-![/etc/fstab showing two UUID-based persistent mount entries for /data and /mnt/fast-storage](screenshots/final/07-fstab-persistent-mounts.png)
-
-*`/etc/fstab` with custom UUID entries. The `noatime` option on the NVMe reduces unnecessary write operations. Tested with `mount -a` before rebooting to verify no typos.*
-
----
-
-#### Samba File Sharing
-
-Samba makes the NVMe accessible as a standard Windows network drive. Configured the share in `/etc/samba/smb.conf`, added a Samba user, opened UFW for port 445, and mapped it as `Z:` on Windows — accessible directly in File Explorer.
-
-![Windows File Explorer with the faststorage Samba share mounted as drive Z, server path \\esther visible](screenshots/final/08-samba-share-mounted.png)
-
-*Samba share mapped as `Z:`. The address bar confirms the server hostname and share name. All storage folders are accessible from Windows without extra software.*
-
----
-
-#### Managed Switch / VLAN Lab
-
-Configured a VLAN on a physical ADTRAN NetVanta 1224ST managed switch using the serial console — the same out-of-band method used when a switch has no IP management interface configured yet. Created VLAN 20, assigned an access port, verified before and after with `show vlan brief`, saved with `write memory`.
-
-This is documented in detail in the [homelab README](homelab/README.md#managed-switch--vlan-lab).
+*SSH into `esther`. The "Last login from" line confirms the previous connection came over Tailscale. Stats: 0.02 load average, 10% memory, 31°C.*
 
 ---
 
 ### Pi-hole DNS Filtering Lab
 
-A network-wide DNS sinkhole running on a Raspberry Pi with Unbound as a recursive upstream resolver. Blocks ads and tracking domains for every device on the network — no client software required. Includes documentation for TP-Link Deco mesh integration and router/AP mode troubleshooting.
+Network-wide DNS sinkhole on a Raspberry Pi with Unbound as a recursive upstream resolver. Every DNS query on the network routes through it — ad, tracking, and malicious domains are blocked before the request leaves the local network. Includes TP-Link Deco mesh integration and troubleshooting documentation.
 
-**[→ Read the Pi-hole lab writeup](homelab/pihole-dns-filtering-lab/README.md)**
+**[→ Full documentation: DNS flow design, blocklist strategy, troubleshooting notes](homelab/pihole-dns-filtering-lab/README.md)**
 
-![Pi-hole admin dashboard showing total queries, blocked percentage, and domains on blocklist](homelab/pihole-dns-filtering-lab/screenshots/final/01-pihole-dashboard-sanitized.png)
+![Pi-hole admin dashboard showing total queries, blocked percentage, and DNS query activity](homelab/pihole-dns-filtering-lab/screenshots/final/01-pihole-dashboard-sanitized.png)
 
-*Pi-hole admin dashboard. The query log tracks DNS lookups in real time — blocked requests are dropped before they leave the network.*
+*Pi-hole dashboard. Every DNS request on the network passes through here — blocked domains return NXDOMAIN without ever leaving the local network.*
+
+---
+
+## Real Problems Solved
+
+These are actual failures from the build — not contrived exercises. The diagnostic path matters as much as the fix.
+
+| Problem | Root Cause | How It Was Fixed |
+|---------|-----------|-----------------|
+| SSH "connection refused" on fresh Ubuntu Server install | `openssh-server` not installed by default depending on install options selected | Identified with `systemctl status ssh`; installed and enabled manually |
+| Docker container exited immediately after launch | Port conflict — previous Portainer attempt still allocated port 9000 | Diagnosed with `ss -tuln`; stopped and removed the conflicting container |
+| Jellyfin running but media library scan returned nothing | Container user lacked read permission on the mounted NVMe directory | Found with `docker logs jellyfin`; corrected with `chown` on the mount path |
+| NVMe drive disappeared after server reboot | Drive was manually mounted, not persisted in `/etc/fstab` | Added UUID-based entry to `/etc/fstab`; UUID prevents device name shifts at boot |
+| Samba share unreachable from Windows despite service running | UFW firewall was blocking port 445 | Added `ufw allow samba`; confirmed `systemctl status smbd` was correct all along |
+| Pi-hole DNS settings not reaching any mesh-connected devices | TP-Link Deco in router mode handled its own DHCP and advertised its own IP as DNS — Pi-hole's IP never reached clients | Switched Deco to AP mode; main router regained DHCP control and Pi-hole propagated to all clients |
+| Smart TV apps stopped working after adding a new blocklist | Streaming service telemetry domain caught by an aggressive blocklist | Identified exact domain in Pi-hole query log; whitelisted that domain without removing the blocklist |
 
 ---
 
@@ -149,7 +122,7 @@ A network-wide DNS sinkhole running on a Raspberry Pi with Unbound as a recursiv
 **Services:** Jellyfin · Pi-hole · Unbound  
 **File Sharing:** Samba (SMB)  
 **Networking:** VLANs · Managed Switch CLI · DNS · TCP/IP  
-**Storage:** LVM · `/etc/fstab` · NVMe · `blkid`  
+**Storage:** LVM · `/etc/fstab` · NVMe  
 **Shell:** Bash  
 **Version Control:** Git · GitHub  
 **Scripting:** Python (screenshot redaction pipeline)
@@ -163,9 +136,9 @@ A network-wide DNS sinkhole running on a Raspberry Pi with Unbound as a recursiv
 
 | Folder | Contents |
 |--------|----------|
-| [`homelab/`](homelab/) | Main homelab project — Ubuntu Server, Docker, Tailscale, Samba, VLAN lab |
-| [`homelab/pihole-dns-filtering-lab/`](homelab/pihole-dns-filtering-lab/) | Pi-hole + Unbound recursive DNS on Raspberry Pi |
-| [`screenshots/final/`](screenshots/final/) | Portfolio-ready screenshots (reviewed and redacted) |
+| [`homelab/`](homelab/) | Ubuntu Server project — setup notes, troubleshooting log, architecture docs, VLAN lab |
+| [`homelab/pihole-dns-filtering-lab/`](homelab/pihole-dns-filtering-lab/) | Pi-hole + Unbound recursive DNS lab on Raspberry Pi |
+| [`screenshots/final/`](screenshots/final/) | Portfolio-ready screenshots, reviewed and redacted |
 | [`resume/`](resume/) | Current resume |
 
 ---
@@ -175,10 +148,10 @@ A network-wide DNS sinkhole running on a Raspberry Pi with Unbound as a recursiv
 **Completed:**
 - Ubuntu Server setup and administration
 - SSH remote access (headless server management)
-- Docker Engine and container management (Portainer, Jellyfin)
-- Persistent storage configuration with `/etc/fstab` and UUIDs
+- Docker and container management (Portainer, Jellyfin)
+- Persistent storage with `/etc/fstab` and UUIDs
 - Samba SMB file sharing
-- Tailscale WireGuard VPN for remote access
+- Tailscale WireGuard VPN
 - Pi-hole DNS sinkhole with Unbound recursive resolver
 - Managed switch VLAN configuration via serial console (ADTRAN NetVanta)
 - CompTIA Network+ ✓
@@ -189,18 +162,19 @@ A network-wide DNS sinkhole running on a Raspberry Pi with Unbound as a recursiv
 - Network segmentation and VLAN trunking
 
 **Up Next:**
-- pfSense firewall — deployment and configuration
-- Monitoring stack — Uptime Kuma or Grafana + Prometheus
+- pfSense firewall deployment and configuration
+- Monitoring stack (Uptime Kuma or Grafana + Prometheus)
 - Docker Compose migration for reproducible container definitions
 - Log aggregation and SIEM tooling (Graylog or ELK stack)
-- Reverse proxy — Nginx or Caddy for centralized TLS
+- Reverse proxy (Nginx or Caddy) for centralized TLS
 
 ---
 
 ## Privacy Note
 
-All screenshots have been reviewed before publishing. Private IPs, internal hostnames, and any work-related browser content have been blurred or cropped. Raw screenshots are excluded from version control via `.gitignore`.
+All screenshots have been reviewed before publishing. Private IPs, internal hostnames, and work-related browser content have been blurred or cropped. Raw screenshots are excluded from version control via `.gitignore`.
 
 ---
 
-*Michael Kelly · IT support professional · Pensacola, FL · Preferred name: Trea*
+*Michael Kelly · IT support professional · Pensacola, FL · Preferred name: Trea*  
+[LinkedIn](https://linkedin.com/in/trea-kelly-03b0352b4) · michaeltkellyiii@gmail.com
