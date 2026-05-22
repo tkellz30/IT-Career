@@ -45,8 +45,12 @@ Thumbs.db
 raw-screenshots/
 
 # Screenshot working folders — originals and intermediate edits
-screenshots/Originals/
-screenshots/edited/
+# ** prefix matches at any depth, so this covers:
+#   screenshots/Originals/
+#   homelab/pihole-dns-filtering-lab/screenshots/Originals/
+#   any future lab/screenshots/Originals/
+**/screenshots/Originals/
+**/screenshots/edited/
 
 # screenshots/final/ is intentionally NOT listed here — keep it tracked
 
