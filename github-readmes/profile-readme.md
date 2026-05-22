@@ -57,6 +57,8 @@ Self-hosted server environment built on repurposed Lenovo hardware running Ubunt
 
 > Goal: Develop real sysadmin skills through hands-on infrastructure work — not just following tutorials, but understanding what breaks and why.
 
+> [View the full portfolio →](https://github.com/tkellz30/IT-Career)
+
 ---
 
 ## What I'm Learning
@@ -99,7 +101,7 @@ I'm not just collecting badges. I'm building evidence of practical skills:
 
 **Michael Kelly** · Preferred name: Trea
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/trea-kelly-03b0352b4)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/trea-kelly-03b0352b4)
 [![Email](https://img.shields.io/badge/Email-Contact-red?style=flat-square&logo=gmail&logoColor=white)](mailto:michaeltkellyiii@gmail.com)
 
 ---

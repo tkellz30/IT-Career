@@ -1,5 +1,7 @@
+← [Back to Portfolio](../README.md)
+
 # Automation Projects
 
-Scripts, automation tools, and workflow improvements.
+Shell scripts, Python utilities, and automation tooling built around the homelab environment.
 
-This section is planned for future additions including scheduled backup scripts, monitoring setup, and Docker Compose configuration files.
+Work in progress — projects will be added here as they're completed.

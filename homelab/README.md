@@ -1,3 +1,5 @@
+← [Back to Portfolio](../README.md)
+
 # Linux Homelab — Infrastructure Project
 
 > Self-hosted Linux server built on physical hardware to develop real skills in system administration, remote access, containerization, and storage management.
