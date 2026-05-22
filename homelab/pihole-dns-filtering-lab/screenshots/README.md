@@ -6,12 +6,12 @@ This folder will contain screenshots documenting the Pi-hole DNS filtering lab. 
 
 Before publishing any screenshot, confirm:
 
-- [ ] All private IP addresses are blurred or cropped
-- [ ] All real client and device hostnames are blurred
-- [ ] No personal domain names are visible
-- [ ] No account usernames or email addresses are visible
-- [ ] No MAC addresses are visible in logs or ARP tables
-- [ ] Pi prompt / shell prompt does not expose hostname or username
+- [x] All private IP addresses are blurred or cropped
+- [x] All real client and device hostnames are blurred
+- [x] No personal domain names are visible
+- [x] No account usernames or email addresses are visible
+- [x] MAC addresses redacted (network overview table fully blacked out)
+- [x] Pi prompt / shell prompt does not expose hostname or username
 
 ---
 
@@ -19,9 +19,10 @@ Before publishing any screenshot, confirm:
 
 | # | Filename (suggested) | Description | Status |
 |---|----------------------|-------------|--------|
-| 01 | `01-pihole-dashboard-overview.png` | Pi-hole web dashboard — total queries, blocked %, top blocked domains. Blur all client IPs. | Pending |
-| 02 | `02-pihole-query-log.png` | Live query log showing recent DNS requests. Blur all client names and IPs in the log. | Pending |
-| 03 | `03-pihole-adlists.png` | Adlist/gravity configuration page — blocklist URLs and domain counts visible | Pending |
+| 01 | `final/01-pihole-dashboard-sanitized.png` | Pi-hole dashboard — total queries (14,771), blocked % (15.2%), activity charts. IP and hostname redacted. | Done |
+| 01b | `final/01.2-pihole-dashboard-sanitized.png` | Dashboard scrolled — top permitted domains, top blocked domains, top clients. Client names redacted. | Done |
+| 02 | `final/02-query-log-blocked-allowed-sanitized.png` | Pi-hole network overview page — device table structure visible; all IPs, MACs, and hostnames redacted. | Done |
+| 03 | `final/03-adlists-configured.png` | Subscribed lists management — active blocklists (StevenBlack, HaGeZi, OISD) configured. | Done |
 | 04 | `04-pihole-upstream-dns-settings.png` | Pi-hole Settings → DNS showing upstream set to `127.0.0.1#5335` (Unbound) | Pending |
 | 05 | `05-unbound-service-status.png` | `sudo systemctl status unbound` output in terminal showing active/running state. Blur hostname in prompt. | Pending |
 | 06 | `06-unbound-dig-test.png` | `dig google.com @127.0.0.1 -p 5335` output confirming Unbound responds on port 5335 | Pending |

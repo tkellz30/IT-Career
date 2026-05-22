@@ -33,6 +33,8 @@ I extended the setup with Unbound, a local recursive DNS resolver. Instead of fo
 
 The lab includes integration with a home router and Deco mesh system, troubleshooting DNS propagation issues across network layers, blocklist tuning, and documented validation that filtering is actually working as expected.
 
+![Pi-hole dashboard — total queries, blocked percentage, and activity charts](screenshots/final/01-pihole-dashboard-sanitized.png)
+
 ---
 
 ## Why I Built This
@@ -116,6 +118,8 @@ graph LR
 - **Pi-hole as the network DNS server.** The main router's DHCP server was updated to advertise the Pi's static IP as the DNS server for all clients. Devices pick this up automatically without any per-device changes.
 - **Deco in AP mode, not router mode.** The Deco units were initially running in router mode, which created a double-NAT situation where the Deco handled DHCP and handed out its own IP as DNS — so Pi-hole's IP was never reaching clients. Switching the Deco to AP mode gave all DHCP and DNS control back to the main router.
 - **Unbound on port 5335.** Pi-hole is configured to forward allowed queries to `127.0.0.1#5335`. Unbound resolves from root nameservers without involving any third-party resolver.
+
+![Pi-hole network overview page — device table data redacted](screenshots/final/02-query-log-blocked-allowed-sanitized.png)
 
 ---
 
@@ -216,6 +220,8 @@ connectivitycheck.android.com
 www.googletagmanager.com
 ```
 
+![Pi-hole subscribed lists management — active blocklists configured](screenshots/final/03-adlists-configured.png)
+
 ---
 
 ## Testing & Validation
@@ -246,6 +252,8 @@ nslookup -type=TXT whoami.akamai.net
 - **Top blocked domains** — ad networks, telemetry endpoints, tracking pixels
 - **Client list** — all devices on the network should appear here once they've made a DNS query
 - **Query log** — live view of every DNS request, showing resolved vs. blocked status
+
+![Pi-hole dashboard scrolled — top permitted domains, top blocked domains, top clients (client names redacted)](screenshots/final/01.2-pihole-dashboard-sanitized.png)
 
 ### Unbound Status
 
@@ -330,7 +338,7 @@ Standard DNS is unencrypted plaintext. Every query your device sends to 8.8.8.8 
 
 ---
 
-*Screenshots for this project are pending privacy review. See [`screenshots/README.md`](screenshots/README.md) for the planned screenshot checklist.*
+*Screenshots are published in [`screenshots/final/`](screenshots/final/). See [`screenshots/README.md`](screenshots/README.md) for the full checklist.*
 
 ---
 
