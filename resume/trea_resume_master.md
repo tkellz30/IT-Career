@@ -14,7 +14,7 @@ IT support professional with 2½ years of Tier 1 helpdesk experience in an ISP e
 ## Technical Skills
 
 **Support & Platforms**
-Helpdesk Tier 1/2 Support · Ticketing Systems · Remote Desktop Tools · Microsoft 365 (User & License Management) · Windows 10/11 · macOS · Linux (Ubuntu Server)
+Helpdesk Tier 1/2 Support · ManageEngine ServiceDesk Plus · Remote Desktop Tools · Microsoft 365 (User & License Management) · Windows 10/11 · macOS · Linux (Ubuntu Server)
 
 **Networking**
 TCP/IP · DNS · DHCP · SSH · VPN / Secure Remote Access (Tailscale / WireGuard) · Network Connectivity Troubleshooting · ISP-Level Diagnostics
