@@ -75,7 +75,10 @@ GitHub · Markdown · Troubleshooting Logs · Technical Write-Ups · Architectur
 
 ---
 
-## Community
+## Community & Professional Development
+
+**Volunteer Staff** | Hack the Coast — Gulf Coast Cybersecurity Conference | May 2026
+Supported day-of operations for the inaugural regional cybersecurity conference in Pensacola, FL. Event featured 12 sessions and a CTF competition covering red/blue team operations, cloud security, OSINT, and cyber careers — organized by IT Gulf Coast in collaboration with BSides Pensacola and the DEF CON 850 community.
 
 **Athlete** | Binghamton Bulldogs | 2017 – 2020
 Competed at a high level while representing the organization in community outreach and fundraising events.

@@ -94,6 +94,7 @@ I'm not just collecting badges. I'm building evidence of practical skills:
 - 2½ years Tier 1 helpdesk at an ISP (started as an intern, Sept 2023) — phones, remote desktop, account admin, SLA-driven ticketing
 - Background in team leadership and customer escalation from retail management
 - Self-taught homelab builder working toward sysadmin and security roles
+- Volunteer staff for Hack the Coast (May 2026) — inaugural Gulf Coast cybersecurity conference in Pensacola, FL; CTF competition, OSINT Village, sessions on red/blue team, cloud security, and cyber careers
 
 ---
 

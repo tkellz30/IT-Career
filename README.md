@@ -167,6 +167,12 @@ These are actual failures from the build — not contrived exercises. The diagno
 
 ---
 
+## Community
+
+**Hack the Coast** (May 2026) — Volunteer staff at the inaugural Gulf Coast Cybersecurity Conference in Pensacola, FL. Twelve sessions covering red/blue team operations, cloud security, OSINT, and cyber careers; live CTF competition and OSINT Village. Organized by IT Gulf Coast in collaboration with BSides Pensacola and the DEF CON 850 community.
+
+---
+
 ## Privacy Note
 
 All screenshots have been reviewed before publishing. Private IPs, internal hostnames, and work-related browser content have been blurred or cropped. Raw screenshots are excluded from version control via `.gitignore`.
