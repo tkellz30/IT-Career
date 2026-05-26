@@ -115,7 +115,7 @@ The server has no monitor or keyboard attached. All administration is done remot
 
 ```bash
 # Connect from any authorized device
-ssh tkellz30@esther
+ssh user@homelab-server
 
 # Check Tailscale network status from the server
 tailscale status

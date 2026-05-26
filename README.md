@@ -161,12 +161,9 @@ These are actual failures from the build — not contrived exercises. The diagno
 - CCNA lab work (subnetting, routing protocols, switching)
 - Network segmentation and VLAN trunking
 
-**Up Next:**
+**Next Lab Priorities:**
 - pfSense firewall deployment and configuration
 - Monitoring stack (Uptime Kuma or Grafana + Prometheus)
-- Docker Compose migration for reproducible container definitions
-- Log aggregation and SIEM tooling (Graylog or ELK stack)
-- Reverse proxy (Nginx or Caddy) for centralized TLS
 
 ---
 
@@ -176,5 +173,5 @@ All screenshots have been reviewed before publishing. Private IPs, internal host
 
 ---
 
-*Michael Kelly · IT support professional · Pensacola, FL · Preferred name: Trea*  
+*Michael Kelly · IT Support Professional · Pensacola, FL*  
 [LinkedIn](https://linkedin.com/in/trea-kelly-03b0352b4) · michaeltkellyiii@gmail.com

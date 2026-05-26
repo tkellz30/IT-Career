@@ -10,7 +10,7 @@ Before publishing any screenshot, confirm:
 - [x] All real client and device hostnames are blurred
 - [x] No personal domain names are visible
 - [x] No account usernames or email addresses are visible
-- [x] MAC addresses redacted (network overview table fully blacked out)
+- [x] MAC addresses and hardware vendor names blurred (network overview table, per-cell Gaussian blur)
 - [x] Pi prompt / shell prompt does not expose hostname or username
 
 ---
