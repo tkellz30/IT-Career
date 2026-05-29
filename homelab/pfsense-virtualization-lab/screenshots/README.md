@@ -53,80 +53,112 @@ before/after security improvement cycle for Samba guest authentication.
 
 ---
 
+### 05 — SSH Key Generated ✅
+**Captured:** 2026-05-29  
+**Command:** Windows PowerShell — `ssh-keygen -t ed25519 -C "trea-homelab"`  
+**Why:** Documents the key generation step. Shows ED25519 algorithm choice and key fingerprint.
+Part of the three-screenshot SSH hardening evidence set.  
+**Blur:** Full key fingerprint and randomart optional — neither is sensitive.  
+**File:** `screenshots/final/05-ssh-key-generated.png`
+
+---
+
+### 06 — SSH Key Auth Success (Pre-Hardening) ✅
+**Captured:** 2026-05-29  
+**Command:** `ssh -i $env:USERPROFILE\.ssh\id_ed25519 <username>@100.x.x.x`  
+**Why:** Proves key-based login was verified working before password auth was disabled —
+the critical safety step that prevents lockout. This is Session 2 of the three-session
+verification sequence.  
+**Blur:** Tailscale IP (100.x.x.x) — blur if preferred.  
+**File:** `screenshots/final/06-ssh-key-auth-success.png`
+
+---
+
+### 07 — SSH Key-Only Enforced ✅
+**Captured:** 2026-05-29  
+**Command:** `sudo sshd -T | grep passwordauthentication` + `sudo systemctl status ssh`  
+**Why:** Confirms `passwordauthentication no` in the effective config after reload. This is
+Session 3 — a new connection post-reload proving the change is active and key auth still
+works. The before/after pair with screenshot 02 shows the full SSH hardening cycle.  
+**Blur:** Nothing sensitive.  
+**File:** `screenshots/final/07-ssh-key-only-enforced.png`
+
+---
+
 ## Ready to Capture Now
 
 ---
 
-### 05 — Tailscale Status
+### 08 — Tailscale Status
 **Command:** `tailscale status`  
 **When:** Any time  
 **Why:** Shows you implement zero-trust remote access and understand WireGuard-based VPN concepts.  
 **Blur:** Tailscale IP addresses (100.x.x.x) — blur if preferred.  
-**File:** `screenshots/final/05-tailscale-status.png`
+**File:** `screenshots/final/08-tailscale-status.png`
 
 ---
 
-### 06 — Storage Architecture
+### 09 — Storage Architecture
 **Command:** `lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT && echo "---" && df -hT | grep -v tmpfs`  
 **When:** Any time  
 **Why:** Shows dual-storage architecture (SATA HDD with LVM + NVMe), a real sysadmin concept.  
 **Blur:** Nothing sensitive.  
-**File:** `screenshots/final/06-storage-architecture.png`
+**File:** `screenshots/final/09-storage-architecture.png`
 
 ---
 
-### 07 — Unattended-upgrades Running
+### 10 — Unattended-upgrades Running
 **Command:** `sudo journalctl -u unattended-upgrades --no-pager | tail -20`  
 **When:** Any time  
 **Why:** Proves automated patch management — shows actual upgrade execution logged by systemd.  
 **Blur:** Nothing sensitive.  
-**File:** `screenshots/final/07-unattended-upgrades-log.png`
+**File:** `screenshots/final/10-unattended-upgrades-log.png`
 
 ---
 
 ## Pending (After BIOS Fix)
 
-### 08 — kvm-ok Verified
+### 11 — kvm-ok Verified
 **Command:** `sudo kvm-ok`  
 **When:** After enabling VT-x in BIOS  
 **Why:** Proves hypervisor capability. Strong signal for infrastructure roles.  
 **Blur:** Nothing sensitive.  
-**File:** `screenshots/final/08-kvm-ok-verified.png`
+**File:** `screenshots/final/11-kvm-ok-verified.png`
 
 ---
 
-### 09 — virt-host-validate All PASS
+### 12 — virt-host-validate All PASS
 **Command:** `sudo virt-host-validate`  
 **When:** After libvirt installed  
 **Why:** Shows production-grade hypervisor configuration (IOMMU, KSM, etc.)  
 **Blur:** Nothing sensitive.  
-**File:** `screenshots/final/09-virt-host-validate.png`
+**File:** `screenshots/final/12-virt-host-validate.png`
 
 ---
 
 ## Pending (After pfSense VM)
 
-### 10 — pfSense Dashboard
+### 13 — pfSense Dashboard
 **URL:** pfSense web GUI (via VNC-over-SSH or direct LAN)  
 **Why:** Shows you can deploy and manage a real firewall appliance.  
 **Blur:** Any WAN IP, license info, or network details depending on context.  
-**File:** `screenshots/final/10-pfsense-dashboard.png`
+**File:** `screenshots/final/13-pfsense-dashboard.png`
 
 ---
 
-### 11 — pfSense Firewall Rules
+### 14 — pfSense Firewall Rules
 **Location:** pfSense → Firewall → Rules  
 **Why:** Demonstrates firewall rule design — a core skill in networking and security roles.  
 **Blur:** Any external IPs.  
-**File:** `screenshots/final/11-pfsense-firewall-rules.png`
+**File:** `screenshots/final/14-pfsense-firewall-rules.png`
 
 ---
 
-### 12 — virsh list --all (VM Running)
+### 15 — virsh list --all (VM Running)
 **Command:** `virsh list --all`  
 **Why:** Shows KVM VM management from the CLI — relevant to cloud and infrastructure roles.  
 **Blur:** Nothing sensitive.  
-**File:** `screenshots/final/12-virsh-vm-running.png`
+**File:** `screenshots/final/15-virsh-vm-running.png`
 
 ---
 

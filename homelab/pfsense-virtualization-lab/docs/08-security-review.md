@@ -3,21 +3,47 @@
 Point-in-time security audit and remediation record.
 Updated after each completed hardening action.
 
-**Last reviewed:** 2026-05-29  
+**Last reviewed:** 2026-05-29 (SSH hardening)  
 **Reviewed by:** Trae Kelly
 
 ---
 
 ## Current Posture Summary
 
-Host hardening is in progress ahead of KVM/pfSense VM deployment. All high-priority
-Phase 2 items except SSH key-only auth are complete. The server has a documented
-deny-by-default firewall policy, automated patching, hardened Samba authentication,
-and zero-trust remote access via Tailscale.
+All high-priority Phase 2 host hardening items are complete. The server enforces
+key-only SSH authentication, deny-by-default firewall policy, hardened Samba guest
+authentication, automated patching, and zero-trust remote access via Tailscale.
+The remaining open finding is the Docker/UFW iptables bypass (Phase 2, pending).
 
 ---
 
 ## Completed Remediations
+
+### SSH Key-Only Authentication (2026-05-29)
+
+**Finding:** `PasswordAuthentication yes` was active via
+`/etc/ssh/sshd_config.d/50-cloud-init.conf` — an Ubuntu 24.04 cloud-init override
+that takes precedence over the main `sshd_config`. Password-based SSH logins were
+accepted, exposing the server to brute-force attacks.
+
+**Impact:** Medium. No internet exposure (Tailscale + no open WAN ports), but any
+device on the LAN could attempt password-based SSH login. Password auth is the primary
+attack vector for compromised credentials and brute-force tools.
+
+**Remediation:**
+- ED25519 key pair generated on Windows client (`trea-homelab`)
+- Public key deployed to `~/.ssh/authorized_keys` on `esther`
+- Key login verified from a second SSH session before any config change
+- `PasswordAuthentication no` set in `50-cloud-init.conf` (override file, not main sshd_config)
+- `sudo sshd -T` confirmed `passwordauthentication no` before reload
+- `sudo systemctl reload ssh` applied — existing sessions preserved
+- Third new SSH session confirmed key auth still works post-reload
+
+**Validation:** `sshd -T | grep passwordauthentication` → `passwordauthentication no`
+
+**Evidence:** `screenshots/final/05-ssh-key-generated.png`, `screenshots/final/06-ssh-key-auth-success.png`, `screenshots/final/07-ssh-key-only-enforced.png`
+
+---
 
 ### Samba Guest Authentication Hardening (2026-05-29)
 
@@ -79,7 +105,6 @@ unaffected.
 
 | # | Finding | Severity | Status |
 |---|---|---|---|
-| 7 | SSH password authentication enabled | Medium | Pending Phase 2 |
 | 8 | Docker containers bypass UFW via iptables | Medium | Pending Phase 2 |
 | 11 | `samba-ad-dc.service` enabled but not running | Low | Pending |
 | 12 | `cloud-init` services vestigial on bare-metal | Low | Pending |
@@ -106,10 +131,13 @@ iptables expertise to maintain.
 ## Resume Summary
 
 Conducted a structured security audit of a bare-metal Ubuntu 24.04 LTS homelab server
-and executed a hardening program across firewall, Samba file sharing, and container
-management. Deployed UFW with deny-by-default policy and interface-aware rules.
-Tightened Samba global authentication by eliminating guest session creation and
-disabling unused share pathways. Applied production change management practices throughout:
-dated backups, config validation before service restarts, one change at a time, verified
-access after each step. Identified Docker/UFW bypass as a pending remediation and
-documented the fix approach.
+and executed a hardening program across authentication, firewall, Samba file sharing,
+and container management. Enforced SSH key-only authentication using ED25519 keys with
+a three-session verification sequence to eliminate lockout risk; identified and corrected
+an Ubuntu cloud-init override file that superseded the main sshd_config. Deployed UFW
+with deny-by-default policy and interface-aware rules. Tightened Samba global
+authentication by eliminating guest session creation and disabling unused share pathways.
+Applied production change management practices throughout: dated backups, config
+validation before service restarts, one change at a time, verified access after each
+step. Identified Docker/UFW bypass as a pending remediation and documented the fix
+approach.

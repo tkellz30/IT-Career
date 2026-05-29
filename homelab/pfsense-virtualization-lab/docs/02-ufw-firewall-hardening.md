@@ -134,12 +134,12 @@ Note `ts-input` at position 1 — Tailscale daemon manages its own iptables entr
 
 ## Known Limitations & Future Work
 
-| Issue | Impact | Fix | Phase |
+| Issue | Impact | Fix | Status |
 |---|---|---|---|
-| Docker bypasses UFW for ports 8096, 9443 | Jellyfin/Portainer accessible from full LAN | Add `--ip 127.0.0.1` to Docker port bindings, or configure `DOCKER-USER` chain rules | Phase 2 |
-| SSH allows password auth | Password brute-force possible | Deploy SSH keys, set `PasswordAuthentication no` | Phase 2 |
-| Samba guest config permissive | `map to guest = Bad User` set globally | Set `map to guest = Never` in smb.conf | Phase 2 |
-| LAN IP is DHCP | UFW rule `192.168.0.0/24` still works; Samba discovery may break if IP changes | Set static DHCP reservation at router | Any time |
+| Docker bypasses UFW for ports 8096, 9443 | Jellyfin/Portainer accessible from full LAN | Bind Docker ports to specific interface IPs in docker-compose | Pending Phase 2 |
+| SSH allows password auth | Password brute-force possible | Deploy SSH keys, set `PasswordAuthentication no` | ✅ Resolved 2026-05-29 |
+| Samba guest config permissive | `map to guest = Bad User` set globally | Set `map to guest = Never` in smb.conf | ✅ Resolved 2026-05-29 |
+| LAN IP is DHCP | UFW rule `192.168.0.0/24` still works; Samba discovery may break if IP changes | Set static DHCP reservation at router | Pending |
 
 ---
 
@@ -156,7 +156,7 @@ Note `ts-input` at position 1 — Tailscale daemon manages its own iptables entr
 
 | Screenshot | Filename | Value |
 |---|---|---|
-| `sudo ufw status verbose` output | `screenshots/01-ufw-active-status.png` | Proves firewall deployment with named rules |
-| Side-by-side before/after listening ports | `screenshots/02-ufw-before-after.png` | Shows security improvement quantitatively |
+| `sudo ufw status verbose` output | `screenshots/final/01-ufw-active-status.png` | Proves firewall deployment with named rules |
+| Security baseline before hardening | `screenshots/final/02-security-baseline-before-hardening.png` | Shows pre-hardening state: open password auth, permissive Samba, orphan containers |
 
 **What to blur:** Nothing sensitive in UFW status output.

@@ -199,31 +199,55 @@ Config was backed up to `/etc/samba/smb.conf.bak-20260529` before any changes.
 
 ## SSH Key Authentication
 
-### Status: Pending — Phase 2
+### Status: Complete — 2026-05-29
 
-Current state: `PasswordAuthentication yes`. SSH accepts password-based logins, which
-are vulnerable to brute-force attacks.
+`PasswordAuthentication no` is now enforced. SSH accepts only ED25519 key
+authentication. Password-based logins are rejected.
 
-### Planned Approach
+### What Was Done
 
 Key authentication uses asymmetric cryptography — the server holds a public key, the
 client proves possession of the corresponding private key without transmitting it.
 Disabling password auth eliminates the brute-force attack surface entirely.
 
-**Sequence for safe deployment:**
+**Ubuntu 24.04 finding:** The active `PasswordAuthentication yes` was not in the main
+`/etc/ssh/sshd_config` but in `/etc/ssh/sshd_config.d/50-cloud-init.conf` — a
+cloud-init override file that takes precedence. Changing only the main config would
+have had no effect. `sudo sshd -T` (which reads the full effective config including
+all includes) identified the correct file to modify.
 
-1. Deploy public key to `~/.ssh/authorized_keys` on the server
-2. Open a second SSH connection and verify key-based login succeeds
-3. With that second connection confirmed working and the first still open, set
-   `PasswordAuthentication no` in `/etc/ssh/sshd_config`
-4. Run `sudo systemctl reload ssh` — reload re-reads the config without dropping
-   active sessions; the first connection stays alive through the change
-5. Confirm the change with a third new connection
+**Sequence used:**
+
+1. Generated ED25519 key pair on Windows client (`trea-homelab`, passphrase-protected)
+2. Deployed public key to `~/.ssh/authorized_keys` on `esther`
+3. Opened Session 2, verified key-based login succeeded — passphrase prompted, login confirmed
+4. With Session 2 live and Session 1 still open, backed up `50-cloud-init.conf`
+5. Changed `PasswordAuthentication yes → no` in `50-cloud-init.conf`
+6. Validated: `sudo sshd -T | grep passwordauthentication` → `passwordauthentication no`
+7. Ran `sudo systemctl reload ssh` — Sessions 1 and 2 stayed alive
+8. Opened Session 3 (new connection) — key auth confirmed working post-reload
 
 The sequence matters. Disabling password auth before verifying key login from a live
 session creates a lockout risk that requires physical console access to recover from.
 
-### Interview Talking Point
+### Ubuntu 24.04 Finding: Cloud-init Override
+
+On Ubuntu 24.04 LTS, the default SSH configuration includes an override file at
+`/etc/ssh/sshd_config.d/50-cloud-init.conf` that sets `PasswordAuthentication yes`.
+This file is **processed after** the main `sshd_config` and takes precedence over it.
+
+**Practical consequence:** Changing `PasswordAuthentication no` in `/etc/ssh/sshd_config`
+would have had zero effect. The override file would continue to enforce `yes`.
+
+**How it was caught:** `sudo sshd -T` reads the fully-resolved effective configuration —
+it processes the main config, all `Include` directives, and all override files in order,
+then outputs what the running daemon actually sees. The change had to be made in
+`50-cloud-init.conf`, not the main file.
+
+This is the difference between reading a config file and reading what the service
+actually runs with. `sshd -T` is the authoritative source.
+
+### Interview Talking Points
 
 **"How would you harden SSH access on a Linux server?"**
 
@@ -259,6 +283,14 @@ network-adjacent service. Verify connectivity immediately after each change.
 **4. One change at a time**
 Each change is tested before the next one begins. Stacking multiple untested
 changes makes root-cause analysis significantly harder if something breaks.
+
+**SSH rollback:**
+```bash
+sudo cp /etc/ssh/sshd_config.d/50-cloud-init.conf.bak-20260529 \
+    /etc/ssh/sshd_config.d/50-cloud-init.conf
+sudo sshd -T | grep passwordauthentication
+sudo systemctl reload ssh
+```
 
 **Samba rollback:**
 ```bash
@@ -305,7 +337,7 @@ that survives even if the network perimeter is bypassed.
 Layer 1: Tailscale — zero-trust VPN, no exposed ports to internet
 Layer 2: UFW — deny-by-default host firewall, LAN-scoped rules
 Layer 3: Service access controls — Samba valid users, Docker health checks
-Layer 4: Authentication — SSH key-only (pending), Samba guest = Never
+Layer 4: Authentication — SSH key-only (enforced), Samba guest = Never
 ```
 
 ### `systemctl reload` vs. `systemctl restart`

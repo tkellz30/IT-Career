@@ -97,6 +97,78 @@ sudo systemctl restart smbd nmbd
 
 ---
 
+## SSH Key Authentication — Verification Record (2026-05-29)
+
+**Change:** `PasswordAuthentication yes → no`  
+**Change target:** `/etc/ssh/sshd_config.d/50-cloud-init.conf` (Ubuntu 24.04 cloud-init override — not main sshd_config)  
+**Backup:** `/etc/ssh/sshd_config.d/50-cloud-init.conf.bak-20260529`  
+**Key algorithm:** ED25519, passphrase-protected, comment `trea-homelab`
+
+### Pre-Change Audit
+
+```bash
+sudo sshd -T | grep -E "passwordauthentication|kbdinteractiveauthentication|usepam"
+# passwordauthentication yes     ← active via override file
+# kbdinteractiveauthentication no
+# usepam yes
+
+ls /etc/ssh/sshd_config.d/
+# 50-cloud-init.conf              ← source of active PasswordAuthentication yes
+```
+
+### Backup
+
+```bash
+sudo cp /etc/ssh/sshd_config.d/50-cloud-init.conf \
+    /etc/ssh/sshd_config.d/50-cloud-init.conf.bak-$(date +%Y%m%d)
+```
+
+### Edit
+
+```bash
+sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' \
+    /etc/ssh/sshd_config.d/50-cloud-init.conf
+```
+
+### Validation
+
+```bash
+sudo sshd -T | grep passwordauthentication
+# Result: passwordauthentication no ✅
+```
+
+### Reload (not restart)
+
+```bash
+sudo systemctl reload ssh
+# Active sessions preserved through reload
+```
+
+### Verification
+
+```bash
+sudo systemctl status ssh --no-pager
+# ssh.service: active (running) ✅
+```
+
+Three-session verification sequence:
+- Session 1 (password-capable) remained open throughout
+- Session 2 (key auth) verified before any config change
+- Session 3 (new connection post-reload) confirmed key auth still works ✅
+
+**Evidence:** `screenshots/final/05-ssh-key-generated.png`, `screenshots/final/06-ssh-key-auth-success.png`, `screenshots/final/07-ssh-key-only-enforced.png`
+
+### Rollback (if needed)
+
+```bash
+sudo cp /etc/ssh/sshd_config.d/50-cloud-init.conf.bak-20260529 \
+    /etc/ssh/sshd_config.d/50-cloud-init.conf
+sudo sshd -T | grep passwordauthentication
+sudo systemctl reload ssh
+```
+
+---
+
 ## UFW Deployment — Verification Record (2026-05-27)
 
 **Change:** UFW enabled with deny-by-default inbound policy

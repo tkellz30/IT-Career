@@ -74,9 +74,40 @@ sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak-$(date +%Y%m%d)
 **Rollback:**
 ```bash
 sudo cp /etc/samba/smb.conf.bak-YYYYMMDD /etc/samba/smb.conf
+sudo testparm --suppress-prompt             # Validate before restarting
 sudo systemctl restart smbd nmbd
 sudo smbclient -L localhost -U <username>   # Verify shares visible
 ```
+
+---
+
+## SSH Config Rollback
+
+### Scenario: SSH locked out after disabling password authentication
+
+**Symptom:** New SSH connections refused or hanging. Key auth not working.
+
+**If you still have an open session (reload preserves active sessions):**
+```bash
+sudo cp /etc/ssh/sshd_config.d/50-cloud-init.conf.bak-20260529 \
+    /etc/ssh/sshd_config.d/50-cloud-init.conf
+sudo sshd -T | grep passwordauthentication   # Verify config is restored
+sudo systemctl reload ssh
+```
+
+**If SSH is completely inaccessible:**
+1. Connect via Tailscale on a different device: `ssh <username>@100.x.x.x`
+2. Run the rollback commands above
+3. Confirm `passwordauthentication yes` before closing the recovery session
+
+**Prevention:** Always use `reload` (not `restart`) when changing SSH config — reload
+keeps existing sessions alive through the change. Verify a new key-authenticated
+connection succeeds before closing any session.
+
+**Important — Ubuntu 24.04 note:** The active SSH config on this server is controlled
+by `/etc/ssh/sshd_config.d/50-cloud-init.conf`, not the main `sshd_config`. Any SSH
+rollback must target the override file. Use `sudo sshd -T` to confirm which file
+is actually controlling a setting before modifying anything.
 
 ---
 

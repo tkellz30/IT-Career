@@ -21,6 +21,7 @@ Tracks the server's security posture improvement over time. Update after each co
 | 4 | Root SSH restricted to key-only | Existing | `PermitRootLogin without-password` |
 | 5 | Tailscale VPN for remote access | Existing | No port forwarding required |
 | 6 | Tighten Samba guest config | 2026-05-29 | `map to guest = Never`, `usershare allow guests = No` — backed up, testparm validated, smbd/nmbd restarted and confirmed running |
+| 7 | SSH key-only authentication | 2026-05-29 | `PasswordAuthentication no` in `/etc/ssh/sshd_config.d/50-cloud-init.conf` — ED25519 key deployed, three-session verification sequence completed, reload not restart |
 | 9 | Remove exited test containers | 2026-05-29 | `docker rm cool_feynman busy_noether` — Jellyfin and Portainer unaffected |
 
 ---
@@ -29,7 +30,6 @@ Tracks the server's security posture improvement over time. Update after each co
 
 | # | Item | Risk if Skipped | Notes |
 |---|---|---|---|
-| 7 | SSH key-only authentication | Medium | Set `PasswordAuthentication no` after deploying keys |
 | 8 | Docker + UFW bypass remediation | Medium | Docker containers bypass UFW; restrict port bindings |
 
 ---
@@ -74,7 +74,7 @@ After Phase 3 (target):         █████████░  90%
 | Category | Weight | Current | Max |
 |---|---|---|---|
 | Firewall / Network | 25% | 15% | 25% |
-| Authentication | 20% | 8% | 20% |
+| Authentication | 20% | 16% | 20% |
 | Updates / Patching | 20% | 18% | 20% |
 | Service Hardening | 15% | 5% | 15% |
 | Monitoring / Logging | 10% | 3% | 10% |

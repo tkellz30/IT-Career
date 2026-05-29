@@ -65,7 +65,7 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 | KVM / libvirt | ⚠️ Pending | Blocked: VT-x must be enabled in BIOS |
 | pfSense VM | 🔲 Planned | Phase 2 |
 | Docker network hardening | 🔲 Planned | Phase 2 |
-| SSH key-only auth | 🔲 Planned | Phase 2 |
+| SSH key-only auth | ✅ Complete | ED25519 key auth enforced; password authentication disabled |
 
 ---
 
@@ -127,6 +127,12 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 • Configured and verified automated security patch management via unattended-upgrades; confirmed 
   daily execution and successful package upgrades through systemd journal analysis
 
+• Enforced SSH key-only authentication on a remote Ubuntu 24.04 LTS server; identified
+  an active cloud-init override file (`sshd_config.d/50-cloud-init.conf`) superseding
+  the main sshd_config, deployed ED25519 keys, applied a three-session verification
+  sequence to eliminate lockout risk, and used `systemctl reload` to preserve active
+  sessions during the change
+
 • Hardened Samba file server authentication by eliminating guest session creation
   (`map to guest = Never`) and disabling unused user-share guest pathways; validated
   with testparm before restart and confirmed both smbd/nmbd services active post-change
@@ -151,7 +157,7 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 - [ ] pfSense VM deployment
 - [ ] Docker network hardening (UFW bypass fix)
 - [x] Samba guest configuration tightening
-- [ ] SSH key-only authentication
+- [x] SSH key-only authentication
 - [ ] LVM volume extension (recover 362 GB)
 - [ ] Reverse proxy with TLS for Jellyfin/Portainer
 

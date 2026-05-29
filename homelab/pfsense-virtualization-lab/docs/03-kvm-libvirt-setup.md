@@ -151,6 +151,6 @@ These are pre-installed by Ubuntu. No additional downloads required once VT-x is
 
 | Screenshot | Filename | Value |
 |---|---|---|
-| `kvm-ok` output showing KVM acceleration available | `screenshots/03-kvm-ok-verified.png` | Proves hypervisor setup |
-| `virsh list --all` showing running pfSense VM | `screenshots/07-pfsense-vm-running.png` | Demonstrates KVM VM management |
-| `virt-host-validate` all passing | `screenshots/04-virt-host-validate.png` | Shows production-ready hypervisor config |
+| `kvm-ok` output showing KVM acceleration available | `screenshots/final/11-kvm-ok-verified.png` | Proves hypervisor setup |
+| `virt-host-validate` all passing | `screenshots/final/12-virt-host-validate.png` | Shows production-ready hypervisor config |
+| `virsh list --all` showing running pfSense VM | `screenshots/final/15-virsh-vm-running.png` | Demonstrates KVM VM management |

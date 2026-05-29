@@ -10,8 +10,8 @@ Complete these items **in order**. Do not proceed past a blocked item.
 - [x] Tailscale VPN confirmed as working backup access path
 - [x] Unattended-upgrades active and verified
 - [x] 0 pending security updates
-- [ ] Samba `map to guest = Never` (tighten before exposing new network segments)
-- [ ] SSH key authentication deployed (before exposing pfSense admin interface)
+- [x] Samba `map to guest = Never` (tighten before exposing new network segments)
+- [x] SSH key authentication deployed (before exposing pfSense admin interface)
 - [ ] LVM extended to recover 362 GB (optional but recommended before VM storage setup)
 
 ---
@@ -82,8 +82,8 @@ Complete these items **in order**. Do not proceed past a blocked item.
   # Expected: empty table (no VMs yet)
   ```
 
-**Screenshot checkpoint:** `screenshots/03-kvm-ok-verified.png` — `kvm-ok` output  
-**Screenshot checkpoint:** `screenshots/04-virt-host-validate.png` — all PASS
+**Screenshot checkpoint:** `screenshots/final/11-kvm-ok-verified.png` — `kvm-ok` output  
+**Screenshot checkpoint:** `screenshots/final/12-virt-host-validate.png` — all PASS
 
 ---
 
@@ -164,9 +164,9 @@ Complete these items **in order**. Do not proceed past a blocked item.
   virsh snapshot-create-as pfsense "fresh-install" --description "Clean pfSense install"
   ```
 
-**Screenshot checkpoint:** `screenshots/05-pfsense-webgui.png` — pfSense dashboard  
-**Screenshot checkpoint:** `screenshots/06-pfsense-firewall-rules.png` — firewall rules  
-**Screenshot checkpoint:** `screenshots/07-pfsense-vm-running.png` — `virsh list` output
+**Screenshot checkpoint:** `screenshots/final/13-pfsense-dashboard.png` — pfSense dashboard  
+**Screenshot checkpoint:** `screenshots/final/14-pfsense-firewall-rules.png` — firewall rules  
+**Screenshot checkpoint:** `screenshots/final/15-virsh-vm-running.png` — `virsh list` output
 
 ---
 
