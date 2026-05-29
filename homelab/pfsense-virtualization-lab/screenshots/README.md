@@ -3,124 +3,142 @@
 Screenshots serve as proof-of-work for your portfolio. Each entry describes what to capture,
 why it matters professionally, and what (if anything) to blur.
 
----
-
-## Completed / Ready to Capture
-
-### 00 — UFW Inactive (Baseline)
-**Command:** `sudo ufw status`  
-**When:** Before UFW was enabled (historical — recreate if needed by temporarily disabling)  
-**Why:** Establishes "before" state. Shows you documented problems, not just successes.  
-**Blur:** Nothing sensitive.  
-**File:** `00-ufw-inactive-baseline.png`
+All images live in `screenshots/final/`.
 
 ---
 
-### 01 — UFW Active Status
+## Captured ✅
+
+### 01 — UFW Active Status ✅
+**Captured:** 2026-05-29  
 **Command:** `sudo ufw status verbose`  
-**When:** Now — UFW is active  
-**Why:** Core evidence of firewall deployment. Shows named rules, LAN scoping, and VPN-aware config.  
+**Why:** Core evidence of firewall deployment. Shows deny-by-default policy, named rules,
+LAN-scoped Samba, and Tailscale WireGuard integration — all visible in one screenshot.  
 **Blur:** Nothing sensitive.  
-**File:** `01-ufw-active-status.png`
+**File:** `screenshots/final/01-ufw-active-status.png`
 
 ---
 
-### 02 — System Overview (neofetch or htop)
-**Command:** `neofetch` or `htop`  
-**When:** Any time  
-**Why:** Professional summary card — OS, kernel, uptime, RAM, CPU.  
+### 02 — Security Baseline Before Hardening ✅
+**Captured:** 2026-05-29  
+**Commands:** `docker ps -a`, `sudo sshd -T | grep -E "passwordauthentication|permitrootlogin|port"`,
+`sudo testparm --suppress-prompt | grep -E "map to guest|usershare"`  
+**Why:** Documents the security findings at audit time — open password auth, permissive Samba guest
+config, exited containers. Shows you identified problems before fixing them. Paired with
+post-hardening screenshots, this demonstrates a complete security improvement cycle.  
 **Blur:** Nothing sensitive.  
-**File:** `02-system-overview.png`
+**File:** `screenshots/final/02-security-baseline-before-hardening.png`
 
 ---
 
-### 03 — Docker Stack Running
-**Command:** `docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"`  
-**When:** Now — both containers up  
-**Why:** Proves Docker administration: container lifecycle, port management, health checks.  
-**Blur:** Nothing sensitive (ports are documentation, not secrets).  
-**File:** `03-docker-stack-running.png`
+### 03 — Docker Cleanup Complete ✅
+**Captured:** 2026-05-29  
+**Command:** `docker ps -a`  
+**Why:** Before/after pair with screenshot 02. Screenshot 02 shows two exited orphan containers.
+This one shows they are gone and both production containers (Jellyfin, Portainer) remain healthy.
+Demonstrates active environment maintenance, not just initial setup.  
+**Blur:** Nothing sensitive.  
+**File:** `screenshots/final/03-docker-cleanup-complete.png`
 
 ---
 
-### 04 — Tailscale Status
+### 04 — Samba Services After Hardening ✅
+**Captured:** 2026-05-29  
+**Command:** `sudo systemctl status smbd nmbd`  
+**Why:** Verifies smbd and nmbd are active and running after changing `map to guest = Never` and
+`usershare allow guests = No`. Paired with screenshot 02 (baseline), this shows a complete
+before/after security improvement cycle for Samba guest authentication.  
+**Blur:** Nothing sensitive.  
+**File:** `screenshots/final/04-samba-services-after-hardening.png`
+
+---
+
+## Ready to Capture Now
+
+---
+
+### 05 — Tailscale Status
 **Command:** `tailscale status`  
-**When:** Now  
-**Why:** Shows you implement zero-trust remote access, understand VPN concepts.  
-**Blur:** Tailscale IP addresses (100.x.x.x) are semi-public within your tailnet — blur if preferred.  
-**File:** `04-tailscale-status.png`
+**When:** Any time  
+**Why:** Shows you implement zero-trust remote access and understand WireGuard-based VPN concepts.  
+**Blur:** Tailscale IP addresses (100.x.x.x) — blur if preferred.  
+**File:** `screenshots/final/05-tailscale-status.png`
 
 ---
 
-### 05 — Storage Architecture
-**Command:** `lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT,LABEL && df -hT`  
-**When:** Now  
+### 06 — Storage Architecture
+**Command:** `lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT && echo "---" && df -hT | grep -v tmpfs`  
+**When:** Any time  
 **Why:** Shows dual-storage architecture (SATA HDD with LVM + NVMe), a real sysadmin concept.  
 **Blur:** Nothing sensitive.  
-**File:** `05-storage-architecture.png`
+**File:** `screenshots/final/06-storage-architecture.png`
 
 ---
 
-### 06 — Unattended-upgrades Running
+### 07 — Unattended-upgrades Running
 **Command:** `sudo journalctl -u unattended-upgrades --no-pager | tail -20`  
-**When:** Now  
-**Why:** Proves automated patch management — shows actual upgrade execution (vim was upgraded May 26).  
+**When:** Any time  
+**Why:** Proves automated patch management — shows actual upgrade execution logged by systemd.  
 **Blur:** Nothing sensitive.  
-**File:** `06-unattended-upgrades-log.png`
+**File:** `screenshots/final/07-unattended-upgrades-log.png`
 
 ---
 
 ## Pending (After BIOS Fix)
 
-### 07 — kvm-ok Verified
+### 08 — kvm-ok Verified
 **Command:** `sudo kvm-ok`  
 **When:** After enabling VT-x in BIOS  
 **Why:** Proves hypervisor capability. Strong signal for infrastructure roles.  
 **Blur:** Nothing sensitive.  
-**File:** `07-kvm-ok-verified.png`
+**File:** `screenshots/final/08-kvm-ok-verified.png`
 
 ---
 
-### 08 — virt-host-validate All PASS
+### 09 — virt-host-validate All PASS
 **Command:** `sudo virt-host-validate`  
 **When:** After libvirt installed  
 **Why:** Shows production-grade hypervisor configuration (IOMMU, KSM, etc.)  
 **Blur:** Nothing sensitive.  
-**File:** `08-virt-host-validate.png`
+**File:** `screenshots/final/09-virt-host-validate.png`
 
 ---
 
 ## Pending (After pfSense VM)
 
-### 09 — pfSense Dashboard
+### 10 — pfSense Dashboard
 **URL:** pfSense web GUI (via VNC-over-SSH or direct LAN)  
 **Why:** Shows you can deploy and manage a real firewall appliance.  
 **Blur:** Any WAN IP, license info, or network details depending on context.  
-**File:** `09-pfsense-dashboard.png`
+**File:** `screenshots/final/10-pfsense-dashboard.png`
 
-### 10 — pfSense Firewall Rules
+---
+
+### 11 — pfSense Firewall Rules
 **Location:** pfSense → Firewall → Rules  
-**Why:** Demonstrates firewall rule design — a core skill in networking/security roles.  
+**Why:** Demonstrates firewall rule design — a core skill in networking and security roles.  
 **Blur:** Any external IPs.  
-**File:** `10-pfsense-firewall-rules.png`
+**File:** `screenshots/final/11-pfsense-firewall-rules.png`
 
-### 11 — virsh list --all (VM Running)
+---
+
+### 12 — virsh list --all (VM Running)
 **Command:** `virsh list --all`  
 **Why:** Shows KVM VM management from the CLI — relevant to cloud and infrastructure roles.  
 **Blur:** Nothing sensitive.  
-**File:** `11-virsh-vm-running.png`
+**File:** `screenshots/final/12-virsh-vm-running.png`
 
 ---
 
 ## Screenshot Naming Convention
 
 ```
-[sequence]-[descriptor].png
+screenshots/final/[sequence]-[descriptor].png
 
 Examples:
-01-ufw-active-status.png
-03-docker-stack-running.png
-09-pfsense-dashboard.png
+screenshots/final/01-ufw-active-status.png
+screenshots/final/03-docker-cleanup-complete.png
+screenshots/final/09-pfsense-dashboard.png
 ```
 
 Use sequence numbers so screenshots sort in logical documentation order on GitHub.

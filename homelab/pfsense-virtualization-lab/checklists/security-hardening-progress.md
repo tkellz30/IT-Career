@@ -4,10 +4,10 @@ Tracks the server's security posture improvement over time. Update after each co
 
 ---
 
-## Current Status: Phase 1 Complete
+## Current Status: Phase 2 In Progress
 
 **Hardening Level:** Intermediate  
-**Last Updated:** 2026-05-27
+**Last Updated:** 2026-05-29
 
 ---
 
@@ -20,6 +20,8 @@ Tracks the server's security posture improvement over time. Update after each co
 | 3 | Samba shares restricted to named user | Existing | `valid users = <username>` on both shares |
 | 4 | Root SSH restricted to key-only | Existing | `PermitRootLogin without-password` |
 | 5 | Tailscale VPN for remote access | Existing | No port forwarding required |
+| 6 | Tighten Samba guest config | 2026-05-29 | `map to guest = Never`, `usershare allow guests = No` — backed up, testparm validated, smbd/nmbd restarted and confirmed running |
+| 9 | Remove exited test containers | 2026-05-29 | `docker rm cool_feynman busy_noether` — Jellyfin and Portainer unaffected |
 
 ---
 
@@ -27,10 +29,8 @@ Tracks the server's security posture improvement over time. Update after each co
 
 | # | Item | Risk if Skipped | Notes |
 |---|---|---|---|
-| 6 | Tighten Samba guest config | Medium | Set `map to guest = Never`, `usershare allow guests = No` |
 | 7 | SSH key-only authentication | Medium | Set `PasswordAuthentication no` after deploying keys |
 | 8 | Docker + UFW bypass remediation | Medium | Docker containers bypass UFW; restrict port bindings |
-| 9 | Remove exited hello-world containers | Low | `docker rm cool_feynman busy_noether` |
 
 ---
 

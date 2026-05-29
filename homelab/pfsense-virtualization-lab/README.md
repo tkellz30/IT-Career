@@ -60,7 +60,7 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 | Unattended-upgrades | ✅ Active | Daily security patches, 0 pending |
 | Jellyfin | ✅ Healthy | Port 8096, Docker managed |
 | Portainer | ✅ Running | Port 9443, Docker managed |
-| Samba | ✅ Running | Media + FastStorage shares |
+| Samba | ✅ Running | Media + FastStorage shares, guest access hardened |
 | Tailscale VPN | ✅ Active | Remote access secured |
 | KVM / libvirt | ⚠️ Pending | Blocked: VT-x must be enabled in BIOS |
 | pfSense VM | 🔲 Planned | Phase 2 |
@@ -91,6 +91,9 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 | [docs/03-kvm-libvirt-setup.md](docs/03-kvm-libvirt-setup.md) | KVM/libvirt installation and configuration |
 | [docs/04-pfsense-planning.md](docs/04-pfsense-planning.md) | pfSense VM planning and network design |
 | [docs/05-docker-hardening.md](docs/05-docker-hardening.md) | Docker + UFW bypass remediation (planned) |
+| [docs/06-interview-talking-points.md](docs/06-interview-talking-points.md) | Design decisions and interview talking points |
+| [docs/07-verification-and-testing.md](docs/07-verification-and-testing.md) | Verification methodology and change records |
+| [docs/08-security-review.md](docs/08-security-review.md) | Security audit findings and remediations |
 | [checklists/pre-pfsense-readiness.md](checklists/pre-pfsense-readiness.md) | Step-by-step pfSense readiness checklist |
 | [checklists/security-hardening-progress.md](checklists/security-hardening-progress.md) | Security posture tracking |
 | [rollback/networking-rollback-procedures.md](rollback/networking-rollback-procedures.md) | Safe rollback steps for all network changes |
@@ -124,6 +127,10 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 • Configured and verified automated security patch management via unattended-upgrades; confirmed 
   daily execution and successful package upgrades through systemd journal analysis
 
+• Hardened Samba file server authentication by eliminating guest session creation
+  (`map to guest = Never`) and disabling unused user-share guest pathways; validated
+  with testparm before restart and confirmed both smbd/nmbd services active post-change
+
 • Conducted full infrastructure audit of homelab server documenting hardware specs, storage 
   architecture (LVM + NVMe), network topology, Docker containers, and Samba shares as baseline 
   for ongoing security improvement program
@@ -143,11 +150,11 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 - [ ] KVM/libvirt installation and verification
 - [ ] pfSense VM deployment
 - [ ] Docker network hardening (UFW bypass fix)
-- [ ] Samba guest configuration tightening
+- [x] Samba guest configuration tightening
 - [ ] SSH key-only authentication
 - [ ] LVM volume extension (recover 362 GB)
 - [ ] Reverse proxy with TLS for Jellyfin/Portainer
 
 ---
 
-*Last updated: 2026-05-27*
+*Last updated: 2026-05-29*
