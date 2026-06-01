@@ -1,6 +1,7 @@
 # KVM / libvirt Setup
 
-**Status:** ⚠️ BLOCKED — VT-x disabled in BIOS. All prerequisites verified; one BIOS change required.
+**Status:** ⚠️ BLOCKED — VT-x not exposed to Ubuntu. Physical BIOS access required.  
+**Re-verified (remote):** 2026-06-01 — KVM unavailable, findings unchanged.
 
 ---
 
@@ -18,6 +19,28 @@ $ dmesg | grep vmx
 ```
 
 The i5-3470 **supports** Intel VT-x. The kernel modules are installed. The only blocker is a BIOS setting.
+
+---
+
+## Remote Blocker — Re-Verification (2026-06-01)
+
+KVM readiness check performed remotely over SSH. All five indicators negative:
+
+| Check | Command | Result |
+|---|---|---|
+| CPU flags | `grep -o 'vmx\|svm' /proc/cpuinfo` | No output — `vmx` not present |
+| lscpu | `lscpu \| grep -i virtualization` | No output — no Virtualization field |
+| Modules | `lsmod \| grep kvm` | No output — `kvm_intel` not loaded |
+| Device node | `ls -la /dev/kvm` | Not found |
+| kvm-ok | `sudo kvm-ok` | `INFO: Your CPU does not support KVM extensions` / `KVM acceleration can NOT be used` |
+
+The i5-3470 supports VT-x in hardware. The kernel modules (`kvm.ko`, `kvm-intel.ko`) are present
+on disk and will load automatically once VT-x is enabled. This is a BIOS configuration issue —
+no remote workaround exists. All KVM and pfSense VM work is blocked until physical BIOS access
+is available.
+
+**Unblocking requires:** Physical access to enable Intel Virtualization Technology in BIOS.
+See Step 1 below.
 
 ---
 

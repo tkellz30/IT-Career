@@ -349,6 +349,7 @@ I used AI tools throughout to research error messages and find relevant document
 | `docs/architecture.md` | Network diagram, service map, port table |
 | `docs/troubleshooting-log.md` | Full log: symptom → investigation → fix → lesson |
 | `pihole-dns-filtering-lab/` | Pi-hole + Unbound DNS filtering lab (separate project) |
+| `pfsense-virtualization-lab/` | Security hardening lab — UFW, SSH key auth, Samba hardening, planned KVM/pfSense VM |
 
 ---
 
@@ -359,6 +360,18 @@ I used AI tools throughout to research error messages and find relevant document
 Network-wide DNS sinkhole running on a Raspberry Pi with Unbound recursive DNS, custom blocklists, and TP-Link Deco mesh integration. Documents DNS flow design, blocklist tuning, AP mode vs. router mode troubleshooting, and validation steps.
 
 → [View the Pi-hole DNS Filtering Lab](pihole-dns-filtering-lab/README.md)
+
+---
+
+### pfSense Virtualization Lab
+
+Security hardening program on a bare-metal Ubuntu 24.04 LTS server (`esther`). Documents
+UFW firewall deployment, SSH key-only authentication (including the Ubuntu cloud-init
+`sshd_config.d` override), Samba guest hardening, Docker container hygiene, and planned
+KVM/pfSense VM deployment. Includes a security posture tracker, evidence screenshots, and
+rollback procedures.
+
+→ [View the pfSense Virtualization Lab](pfsense-virtualization-lab/README.md)
 
 ---
 

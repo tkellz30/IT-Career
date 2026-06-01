@@ -94,6 +94,7 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 | [docs/06-interview-talking-points.md](docs/06-interview-talking-points.md) | Design decisions and interview talking points |
 | [docs/07-verification-and-testing.md](docs/07-verification-and-testing.md) | Verification methodology and change records |
 | [docs/08-security-review.md](docs/08-security-review.md) | Security audit findings and remediations |
+| [docs/09-ssh-hardening.md](docs/09-ssh-hardening.md) | SSH key authentication hardening — ED25519 setup, cloud-init override, verification sequence |
 | [checklists/pre-pfsense-readiness.md](checklists/pre-pfsense-readiness.md) | Step-by-step pfSense readiness checklist |
 | [checklists/security-hardening-progress.md](checklists/security-hardening-progress.md) | Security posture tracking |
 | [rollback/networking-rollback-procedures.md](rollback/networking-rollback-procedures.md) | Safe rollback steps for all network changes |

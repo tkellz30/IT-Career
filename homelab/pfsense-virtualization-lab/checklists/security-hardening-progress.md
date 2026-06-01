@@ -16,7 +16,7 @@ Tracks the server's security posture improvement over time. Update after each co
 | # | Item | Date | Notes |
 |---|---|---|---|
 | 1 | UFW enabled with deny-by-default policy | 2026-05-27 | Rules verified, SSH + Tailscale confirmed working |
-| 2 | Unattended-upgrades active and verified | 2026-05-27 | Daily execution confirmed via journald |
+| 2 | Unattended-upgrades active and verified | 2026-05-27 | Daily execution confirmed via journald — evidence: `screenshots/final/10-unattended-upgrades-log.png` |
 | 3 | Samba shares restricted to named user | Existing | `valid users = <username>` on both shares |
 | 4 | Root SSH restricted to key-only | Existing | `PermitRootLogin without-password` |
 | 5 | Tailscale VPN for remote access | Existing | No port forwarding required |
@@ -63,6 +63,7 @@ Tracks the server's security posture improvement over time. Update after each co
 ```
 Baseline (2026-05-27):          ████░░░░░░  35%
 After Phase 1 (UFW + updates):  ██████░░░░  55%
+Current (2026-05-29):           ███████░░░  ~60%
 After Phase 2 (target):         ████████░░  75%
 After Phase 3 (target):         █████████░  90%
 ```

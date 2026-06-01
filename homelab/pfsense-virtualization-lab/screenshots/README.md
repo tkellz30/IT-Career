@@ -85,31 +85,29 @@ works. The before/after pair with screenshot 02 shows the full SSH hardening cyc
 
 ---
 
-## Ready to Capture Now
-
----
-
-### 08 — Tailscale Status
+### 08 — Tailscale Status ✅
+**Captured:** 2026-06-01  
 **Command:** `tailscale status`  
-**When:** Any time  
-**Why:** Shows you implement zero-trust remote access and understand WireGuard-based VPN concepts.  
+**Why:** Shows zero-trust remote access is active. Confirms server is enrolled in the
+tailnet with a live WireGuard tunnel — no port forwarding required.  
 **Blur:** Tailscale IP addresses (100.x.x.x) — blur if preferred.  
 **File:** `screenshots/final/08-tailscale-status.png`
 
 ---
 
-### 09 — Storage Architecture
+### 09 — Storage Architecture ✅
+**Captured:** 2026-06-01  
 **Command:** `lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINT && echo "---" && df -hT | grep -v tmpfs`  
-**When:** Any time  
-**Why:** Shows dual-storage architecture (SATA HDD with LVM + NVMe), a real sysadmin concept.  
+**Why:** Shows dual-storage architecture (SATA HDD with LVM + NVMe), a real sysadmin concept.
+Confirms both drives are mounted and sized correctly, matching the written baseline.  
 **Blur:** Nothing sensitive.  
 **File:** `screenshots/final/09-storage-architecture.png`
 
 ---
 
-### 10 — Unattended-upgrades Running
+### 10 — Unattended-Upgrades Running ✅
+**Captured:** 2026-06-01  
 **Command:** `sudo journalctl -u unattended-upgrades --no-pager | tail -20`  
-**When:** Any time  
 **Why:** Proves automated patch management — shows actual upgrade execution logged by systemd.  
 **Blur:** Nothing sensitive.  
 **File:** `screenshots/final/10-unattended-upgrades-log.png`

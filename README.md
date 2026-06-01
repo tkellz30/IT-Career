@@ -22,6 +22,7 @@ Everything here ran on actual hardware. The troubleshooting logs are real failur
 | Project | What It Covers |
 |---------|---------------|
 | [Ubuntu Server Homelab →](homelab/README.md) | Ubuntu Server, Docker, Tailscale, Samba, VLAN lab — full writeup with troubleshooting log |
+| [pfSense Virtualization Lab →](homelab/pfsense-virtualization-lab/README.md) | Bare-metal Ubuntu 24.04 security hardening, UFW, SSH key auth, Samba hardening, KVM/pfSense planned |
 | [Pi-hole DNS Filtering Lab →](homelab/pihole-dns-filtering-lab/README.md) | Pi-hole + Unbound on Raspberry Pi — DNS sinkhole, blocklist tuning, mesh troubleshooting |
 | [Screenshots →](screenshots/final/) | Portfolio-ready screenshots, all reviewed for sensitive info |
 | [Resume →](resume/trea_resume_master.md) | Current resume |
@@ -137,6 +138,7 @@ These are actual failures from the build — not contrived exercises. The diagno
 | Folder | Contents |
 |--------|----------|
 | [`homelab/`](homelab/) | Ubuntu Server project — setup notes, troubleshooting log, architecture docs, VLAN lab |
+| [`homelab/pfsense-virtualization-lab/`](homelab/pfsense-virtualization-lab/) | Security hardening lab — UFW, SSH key auth, Samba hardening, KVM/pfSense planned |
 | [`homelab/pihole-dns-filtering-lab/`](homelab/pihole-dns-filtering-lab/) | Pi-hole + Unbound recursive DNS lab on Raspberry Pi |
 | [`screenshots/final/`](screenshots/final/) | Portfolio-ready screenshots, reviewed and redacted |
 | [`resume/`](resume/) | Current resume |
