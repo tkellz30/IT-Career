@@ -208,11 +208,13 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 - [ ] Verify pfSense web GUI accessible: *(pending — LAN is isolated; requires test client VM or host route)*
 
-- [ ] **Take VM snapshot before any firewall rule changes:**
+- [x] **Take VM snapshot before any firewall rule changes:** *(completed 2026-06-02)*
   ```bash
-  virsh snapshot-create-as pfsense-lab "fresh-install" \
-    --description "Clean pfSense 2.8.1 install before any rule changes"
+  virsh snapshot-create-as pfsense-lab fresh-install \
+    "Fresh pfSense install before firewall/config changes"
   ```
+  > Snapshot `fresh-install` created — 2026-06-02 17:59:11 +0000, state: running ✅  
+  > Restore: `virsh snapshot-revert pfsense-lab fresh-install`
 
 **Screenshot checkpoint:** `screenshots/final/13-pfsense-dashboard.png` — pfSense dashboard  
 **Screenshot checkpoint:** `screenshots/final/14-pfsense-firewall-rules.png` — firewall rules  
@@ -227,7 +229,7 @@ Complete these items **in order**. Do not proceed past a blocked item.
 | BIOS Gate | Before Phase 2 | `vmx` appears in `/proc/cpuinfo` |
 | KVM Gate | Before Phase 4 | `kvm-ok` returns green, `/dev/kvm` exists |
 | Network Gate | Before Phase 6 | Virtual network created, confirmed no impact to `eno1` |
-| Snapshot Gate | Before firewall rules | VM snapshot created and verified restorable |
+| Snapshot Gate | Before firewall rules | VM snapshot created and verified restorable | ✅ `fresh-install` — 2026-06-02 |
 
 ---
 
