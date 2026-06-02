@@ -1,6 +1,6 @@
 # pfSense Virtualization Planning
 
-**Status:** 🔲 Planned — awaiting KVM setup  
+**Status:** 🟡 In Progress — Phase 5 network planning complete; VM creation pending  
 **Prerequisite:** [docs/03-kvm-libvirt-setup.md](03-kvm-libvirt-setup.md)
 
 ---
@@ -52,47 +52,45 @@ Internet → Home Router (192.168.x.1)
 |---|---|---|
 | vCPUs | 1 (expandable to 2) | pfSense is lightweight |
 | RAM | 512 MB minimum, 1 GB recommended | Suricata IDS needs more if enabled |
-| Disk | 20 GB (thin-provisioned from LVM) | pfSense install is ~1 GB; 20 GB for logs/packages |
+| Disk | 20 GB qcow2 on NVMe (`/mnt/fast-storage/vms/`) | pfSense install is ~1 GB; 20 GB for logs/packages |
 | Network | 2 virtual NICs (WAN + LAN) | Standard pfSense two-interface setup |
 
-**Storage:** Create a new LVM logical volume for VM images:
-```bash
-sudo lvcreate -L 100G -n vm-storage ubuntu-vg-1
-sudo mkfs.ext4 /dev/ubuntu-vg-1/vm-storage
-sudo mkdir /var/lib/libvirt/vms
-sudo mount /dev/ubuntu-vg-1/vm-storage /var/lib/libvirt/vms
-```
+**Storage:** NVMe libvirt pool at `/mnt/fast-storage/vms/` — pool `nvme-vms` already defined, running, and autostarted.
+*(LVM LV option deferred — see Phase 3 notes in [03-kvm-libvirt-setup.md](03-kvm-libvirt-setup.md))*
 
 ---
 
-## pfSense Download
+## pfSense / Netgate Installer ✅
 
-- Download AMD64 ISO from: https://www.pfsense.org/download/
-- Version: pfSense CE (Community Edition) or pfSense Plus (if licensed)
-- Architecture: AMD64
-- Console: VGA
-- Installer: DVD Image (ISO)
+**Downloaded and verified (Phase 4 — 2026-06-02):**
 
-Verify SHA256 checksum after download.
+| Field | Value |
+|---|---|
+| File | `netgate-installer-v1.2-RELEASE-amd64.iso.gz` |
+| Location | `/mnt/fast-storage/isos/` (libvirt pool: `nvme-isos`) |
+| Size | 327 MB |
+| SHA256 | `184514fe7df0d339362c1e33fa051c464577a450528759b343ade894c7c57955` |
+| Verified | On Windows before transfer and on `esther` after transfer — both match ✅ |
 
 ---
 
 ## Installation Plan
 
 ```bash
-# Create disk image for pfSense VM
-sudo qemu-img create -f qcow2 /var/lib/libvirt/vms/pfsense.qcow2 20G
+# Create disk image for pfSense VM (NVMe pool)
+sudo qemu-img create -f qcow2 /mnt/fast-storage/vms/pfsense.qcow2 20G
 
-# Create VM with virt-install
+# Create VM with virt-install (Virtual NAT design — see Phase 5 Chosen Design below)
+# NOTE: decompress the .iso.gz before use, or verify virt-install supports .gz directly
 sudo virt-install \
   --name pfsense \
   --ram 1024 \
   --vcpus 1 \
-  --disk path=/var/lib/libvirt/vms/pfsense.qcow2,format=qcow2 \
+  --disk path=/mnt/fast-storage/vms/pfsense.qcow2,format=qcow2 \
   --os-variant freebsd13.0 \
-  --cdrom /var/lib/libvirt/iso/pfSense-CE-2.7.x-amd64.iso \
-  --network bridge=virbr0,model=virtio \
+  --cdrom /mnt/fast-storage/isos/netgate-installer-v1.2-RELEASE-amd64.iso.gz \
   --network network=default,model=virtio \
+  --network network=pfsense-lab-lan,model=virtio \
   --graphics vnc,listen=127.0.0.1 \
   --noautoconsole
 
@@ -118,6 +116,89 @@ ssh -L 5900:localhost:5900 <username>@100.x.x.x
 - Con: If USB NIC disconnects, pfSense WAN drops; must not bridge `eno1`
 
 **Recommendation:** Start with Option A for initial setup, migrate to Option B once comfortable.
+
+---
+
+## Phase 5 — Chosen Network Design (2026-06-02)
+
+**Decision: Option A — Virtual NAT.** No physical NIC changes, no Linux bridge, no Netplan changes.
+
+### Network Topology
+
+```
+Home Router (192.168.0.1)
+        │
+        │ LAN (192.168.0.0/24)
+        │
+   esther (eno1: 192.168.0.24)
+        │
+   libvirt default NAT (virbr0, 192.168.122.0/24)
+        │
+   ┌────▼────────────────────────────────┐
+   │         pfSense VM                  │
+   │  WAN: default (192.168.122.x)       │  ← double-NAT, internet via host
+   │  LAN: pfsense-lab-lan (10.50.0.x)  │  ← isolated, no production traffic
+   └────────────────────────────────────┘
+        │
+   pfsense-lab-lan (virbr-pflan, 10.50.0.0/24)
+        │
+   [future test VMs / controlled access]
+```
+
+### Libvirt Networks
+
+| Role | Network Name | Bridge | Type | Subnet | Status |
+|---|---|---|---|---|---|
+| pfSense WAN | `default` | `virbr0` | NAT | 192.168.122.0/24 | Active ✅ — persistent, autostart yes |
+| pfSense LAN | `pfsense-lab-lan` | `virbr-pflan` | Isolated | 10.50.0.0/24 | Active ✅ — persistent, autostart yes, no host IP |
+
+**Verified (2026-06-02):** Both networks active. `eno1` remains 192.168.0.24/24. Default route via 192.168.0.1 unchanged. No 10.50.0.0/24 route on host (correct — pfSense owns that subnet). Tailscale present and unaffected.
+
+### What This Design Can Test
+
+- pfSense installation and boot via VNC-over-SSH tunnel
+- pfSense WAN connectivity via double-NAT (internet access works for packages/updates)
+- pfSense LAN DHCP server and firewall rules on the isolated 10.50.0.0/24 segment
+- pfSense web GUI access from `esther` host over the lab LAN bridge
+- Firewall rule design and NAT configuration in a safe, isolated environment
+
+### What This Design Cannot Test Yet
+
+- Replacing the home router (Deco units untouched)
+- Real single-NAT WAN topology (requires USB NIC or bridged `eno1` — deferred)
+- VLAN trunking to physical APs
+- Production client routing through pfSense
+- Real WAN failover
+
+### Read-Only Inspection Commands (run before creating anything)
+
+```bash
+virsh net-list --all          # confirm 'default' network exists and is active
+virsh net-info default        # verify subnet and bridge interface (virbr0)
+ip addr show                  # confirm eno1, tailscale0, virbr0 state on host
+ip route                      # confirm current routing table — baseline before any changes
+```
+
+### Proposed Commands — Isolated LAN Network (pending approval — not yet run)
+
+```bash
+# Define the isolated pfSense LAN network via XML
+cat > /tmp/pfsense-lab-lan.xml << 'EOF'
+<network>
+  <name>pfsense-lab-lan</name>
+  <bridge name='virbr-pflan' stp='on' delay='0'/>
+</network>
+EOF
+# Isolated: no <forward> element = no routing to host network
+# No host DHCP: pfSense owns DHCP on this segment
+
+virsh net-define /tmp/pfsense-lab-lan.xml
+virsh net-start pfsense-lab-lan
+virsh net-autostart pfsense-lab-lan
+virsh net-info pfsense-lab-lan   # confirm active, persistent, autostart yes
+```
+
+> **Do not run until `virsh net-list --all` and `virsh net-info default` output is confirmed.**
 
 ---
 

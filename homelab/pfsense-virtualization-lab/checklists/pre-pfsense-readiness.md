@@ -164,23 +164,24 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 ## Phase 5 — Network Planning (Before Creating VM)
 
-- [ ] Decide network topology (see [docs/04-pfsense-planning.md](../docs/04-pfsense-planning.md))
-  - [ ] Option A: Virtual NAT (safe, double-NAT) — recommended for first attempt
-  - [ ] Option B: USB NIC as WAN interface
+- [x] Decide network topology: *(decided 2026-06-02)*
+  - **✅ Chosen — Option A:** Virtual NAT — `default` NAT network as WAN, isolated `pfsense-lab-lan` as LAN
+    - `eno1` untouched, Tailscale untouched, no Linux bridge, no Netplan changes
+    - Double-NAT acceptable for initial install and lab testing
+  - **⏸ Deferred — Option B:** USB NIC (`enx5c857e3c904d`) as WAN
+    - Deferred: real single-NAT topology; migrate after pfSense install is stable
 
-- [ ] If using USB NIC (Option B):
-  - [ ] Confirm `enx5c857e3c904d` is detected: `ip link show enx5c857e3c904d`
-  - [ ] **DO NOT** modify `eno1` in this phase
-  - [ ] Confirm UFW rule exists for Tailscale before any routing changes
-  - [ ] Document the USB NIC MAC address for reference
+- [x] Run read-only network inspection: *(confirmed 2026-06-02)*
+  > `default` network active, persistent, autostart yes — bridge `virbr0` (192.168.122.1/24)  
+  > `eno1` remains 192.168.0.24/24 — default route via 192.168.0.1 unchanged  
+  > Tailscale present and unaffected — baseline clean
 
-- [ ] Create libvirt virtual network for pfSense LAN:
-  ```bash
-  # Create isolated bridge network (lab segment)
-  virsh net-define /etc/libvirt/qemu/networks/labnet.xml
-  virsh net-start labnet
-  virsh net-autostart labnet
-  ```
+- [x] Create isolated libvirt LAN network `pfsense-lab-lan`: *(completed 2026-06-02)*
+  > Bridge `virbr-pflan` — active, persistent, autostart yes  
+  > No host IPv4 address on `virbr-pflan` (correct — pfSense owns 10.50.0.0/24)  
+  > No 10.50.0.0/24 route appears on host routing table (correct)  
+  > `eno1` and default route unchanged — production network unaffected
+  > pfSense owns DHCP on this segment — no host DHCP configured here.
 
 ---
 
