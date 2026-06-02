@@ -89,6 +89,38 @@ KVM gate cleared. Proceed to Phase 3 (VM storage preparation) per the readiness 
 
 ---
 
+## Phase 3 — VM Storage Prepared (2026-06-02)
+
+**Storage decision:** NVMe direct directory storage — no repartitioning, no LVM changes.  
+**LVM deferred:** 362 GB unallocated space on SATA HDD available as a future independent improvement.
+
+| Item | Detail |
+|---|---|
+| Device | `/dev/nvme0n1p1` mounted at `/mnt/fast-storage` |
+| Capacity | 916 GB total — 842 GB available |
+| VM disk images | `/mnt/fast-storage/vms/` |
+| ISO storage | `/mnt/fast-storage/isos/` |
+| Owner | `libvirt-qemu:kvm` (`uid=64055`, `gid=994`) |
+| Permissions | `0751` — `drwxr-x--x` |
+
+**AppArmor note:** Ubuntu 24.04's QEMU AppArmor profile restricts filesystem access to
+known paths. Define a libvirt storage pool pointing to `/mnt/fast-storage/vms/` before
+VM creation — libvirt registers the path with AppArmor automatically when a pool is
+defined. Referencing the path directly in `virt-install` without a pool may be denied.
+
+```bash
+# Pool definition (Phase 3 next action — not yet run)
+virsh pool-define-as nvme-vms dir --target /mnt/fast-storage/vms
+virsh pool-build nvme-vms
+virsh pool-start nvme-vms
+virsh pool-autostart nvme-vms
+virsh pool-info nvme-vms   # confirm State: running, Autostart: yes
+```
+
+Storage gate cleared. Proceed to Phase 4 (pfSense ISO download and verification).
+
+---
+
 ## Step 1 — Enable VT-x in BIOS (Physical Access Required)
 
 > This step cannot be done remotely. You must have physical or IPMI access to the server.

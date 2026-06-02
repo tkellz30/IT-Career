@@ -91,27 +91,39 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 ## Phase 3 — VM Storage Preparation
 
-- [ ] Decide storage location for VM disk images (options):
-  - **Option A:** Provision new LVM LV from the 362 GB unallocated space
-    ```bash
-    sudo lvcreate -L 50G -n vm-images ubuntu-vg-1
-    sudo mkfs.ext4 /dev/ubuntu-vg-1/vm-images
-    sudo mkdir -p /var/lib/libvirt/vms
-    # Add to /etc/fstab for persistence
-    ```
-  - **Option B:** Use NVMe directly (`/mnt/fast-storage/vms/`)
-    - Faster disk I/O; good for VM storage
-    - Less separation from media data
+- [x] Decide storage location for VM disk images: *(decided 2026-06-02)*
+  - **✅ Chosen — Option B:** NVMe direct mount at `/mnt/fast-storage/vms/`
+    - Faster disk I/O; 842 GB free; already mounted and persistent via `/etc/fstab`
+    - No repartitioning or LVM changes required
+  - **⏸ Deferred — Option A:** LVM LV from 362 GB unallocated space on SATA HDD
+    - Deferred: adds complexity; LVM extension can recover that space independently later
+    - Not needed for initial pfSense VM deployment
 
-- [ ] Create ISO storage directory:
+- [x] Create VM and ISO storage directories on NVMe: *(completed 2026-06-02)*
   ```bash
-  sudo mkdir -p /var/lib/libvirt/iso
+  sudo mkdir -p /mnt/fast-storage/vms
+  sudo mkdir -p /mnt/fast-storage/isos
   ```
 
-- [ ] Verify available space:
+- [x] Set ownership and permissions for libvirt/QEMU access: *(confirmed 2026-06-02)*
   ```bash
-  df -h
+  sudo chown libvirt-qemu:kvm /mnt/fast-storage/vms /mnt/fast-storage/isos
+  sudo chmod 0751 /mnt/fast-storage/vms /mnt/fast-storage/isos
   ```
+  > libvirt-qemu: `uid=64055(libvirt-qemu) gid=994(kvm) groups=994(kvm)`  
+  > Result: `drwxr-x--x 2 libvirt-qemu kvm` on both directories
+
+- [x] Verify directories and available space: *(confirmed 2026-06-02)*
+  ```bash
+  ls -lah /mnt/fast-storage/ | grep -E 'vms|isos'
+  df -h /mnt/fast-storage
+  ```
+  > `/dev/nvme0n1p1` — 916G total, 28G used, **842G available**
+
+> ⚠️ **Next action before VM creation:** Define a libvirt storage pool pointing to
+> `/mnt/fast-storage/vms/`. Libvirt handles AppArmor allowances automatically when a
+> pool is registered — referencing the path directly in `virt-install` without a pool
+> definition may trigger an AppArmor denial on Ubuntu 24.04.
 
 ---
 
@@ -121,7 +133,7 @@ Complete these items **in order**. Do not proceed past a blocked item.
 - [ ] Verify SHA256 checksum against published hash
 - [ ] Copy ISO to server:
   ```bash
-  scp pfSense-CE-*.iso <username>@100.x.x.x:/var/lib/libvirt/iso/
+  scp pfSense-CE-*.iso <username>@100.x.x.x:/mnt/fast-storage/isos/
   ```
 
 ---
