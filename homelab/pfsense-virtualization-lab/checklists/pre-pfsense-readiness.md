@@ -134,12 +134,31 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 ## Phase 4 — pfSense Download and Verification
 
-- [ ] Download pfSense CE AMD64 ISO from pfsense.org
-- [ ] Verify SHA256 checksum against published hash
-- [ ] Copy ISO to server:
+- [x] Download Netgate installer ISO: *(completed 2026-06-02)*
+  > **File:** `netgate-installer-v1.2-RELEASE-amd64.iso.gz` (327 MB)
+
+- [x] Verify SHA256 checksum on Windows before transfer: *(verified 2026-06-02)*
+  > **SHA256:** `184514fe7df0d339362c1e33fa051c464577a450528759b343ade894c7c57955`  
+  > Matched official published hash ✅
+
+- [x] Transfer ISO to esther at `/mnt/fast-storage/isos/`: *(completed 2026-06-02)*
   ```bash
-  scp pfSense-CE-*.iso <username>@100.x.x.x:/mnt/fast-storage/isos/
+  scp netgate-installer-v1.2-RELEASE-amd64.iso.gz <username>@100.x.x.x:/mnt/fast-storage/isos/
   ```
+  > `-rw-r--r-- 1 libvirt-qemu kvm 327M Jun  2 04:07 netgate-installer-v1.2-RELEASE-amd64.iso.gz`
+
+- [x] Verify SHA256 on esther after transfer: *(verified 2026-06-02)*
+  ```bash
+  sha256sum /mnt/fast-storage/isos/netgate-installer-v1.2-RELEASE-amd64.iso.gz
+  ```
+  > `184514fe7df0d339362c1e33fa051c464577a450528759b343ade894c7c57955` — matches ✅
+
+- [x] Confirm ISO visible in libvirt `nvme-isos` pool: *(confirmed 2026-06-02)*
+  ```bash
+  virsh pool-refresh nvme-isos
+  virsh vol-list nvme-isos
+  ```
+  > `netgate-installer-v1.2-RELEASE-amd64.iso.gz   /mnt/fast-storage/isos/netgate-installer-v1.2-RELEASE-amd64.iso.gz`
 
 ---
 
