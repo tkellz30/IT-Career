@@ -108,14 +108,21 @@ known paths. Define a libvirt storage pool pointing to `/mnt/fast-storage/vms/` 
 VM creation — libvirt registers the path with AppArmor automatically when a pool is
 defined. Referencing the path directly in `virt-install` without a pool may be denied.
 
+**Storage pools defined and verified (2026-06-02):**
+
 ```bash
-# Pool definition (Phase 3 next action — not yet run)
-virsh pool-define-as nvme-vms dir --target /mnt/fast-storage/vms
-virsh pool-build nvme-vms
-virsh pool-start nvme-vms
-virsh pool-autostart nvme-vms
-virsh pool-info nvme-vms   # confirm State: running, Autostart: yes
+# Both pools defined, built, started, and set to autostart
+virsh pool-define-as nvme-vms  dir --target /mnt/fast-storage/vms
+virsh pool-define-as nvme-isos dir --target /mnt/fast-storage/isos
+# pool-build / pool-start / pool-autostart run for each
 ```
+
+| Pool | Target | State | Persistent | Autostart | Available |
+|---|---|---|---|---|---|
+| `nvme-vms` | `/mnt/fast-storage/vms` | running ✅ | yes | yes | 888.45 GiB |
+| `nvme-isos` | `/mnt/fast-storage/isos` | running ✅ | yes | yes | 888.45 GiB |
+
+AppArmor paths registered automatically. `virsh pool-list --all` confirms both pools active.
 
 Storage gate cleared. Proceed to Phase 4 (pfSense ISO download and verification).
 

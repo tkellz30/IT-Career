@@ -120,10 +120,15 @@ Complete these items **in order**. Do not proceed past a blocked item.
   ```
   > `/dev/nvme0n1p1` — 916G total, 28G used, **842G available**
 
-> ⚠️ **Next action before VM creation:** Define a libvirt storage pool pointing to
-> `/mnt/fast-storage/vms/`. Libvirt handles AppArmor allowances automatically when a
-> pool is registered — referencing the path directly in `virt-install` without a pool
-> definition may trigger an AppArmor denial on Ubuntu 24.04.
+- [x] Define libvirt storage pools for VM images and ISOs: *(completed 2026-06-02)*
+  ```bash
+  virsh pool-define-as nvme-vms  dir --target /mnt/fast-storage/vms
+  virsh pool-define-as nvme-isos dir --target /mnt/fast-storage/isos
+  # then for each: pool-build, pool-start, pool-autostart, pool-info
+  ```
+  > `nvme-vms`  — State: running, Persistent: yes, Autostart: yes, Available: 888.45 GiB  
+  > `nvme-isos` — State: running, Persistent: yes, Autostart: yes, Available: 888.45 GiB  
+  > AppArmor paths registered automatically by libvirt. VM creation can proceed.
 
 ---
 
