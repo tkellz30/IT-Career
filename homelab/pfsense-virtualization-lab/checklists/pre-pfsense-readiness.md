@@ -44,46 +44,48 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 ## Phase 2 — KVM / libvirt Installation
 
-- [ ] Install KVM and libvirt packages:
+- [x] Install KVM and libvirt packages: *(completed 2026-06-02)*
   ```bash
   sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients \
     bridge-utils virtinst
   ```
 
-- [ ] Add user to groups:
+- [x] Add user to groups: *(completed 2026-06-02)*
   ```bash
   sudo usermod -aG libvirt $USER
   sudo usermod -aG kvm $USER
   # Log out and back in after this
   ```
 
-- [ ] Start and enable libvirtd:
+- [x] Start and enable libvirtd: *(active/running confirmed 2026-06-02)*
   ```bash
   sudo systemctl enable --now libvirtd
   sudo systemctl status libvirtd
   # Expected: active (running)
   ```
 
-- [ ] Run `kvm-ok`:
+- [x] Run `kvm-ok`: *(confirmed — see screenshot 11)*
   ```bash
   sudo kvm-ok
   # Expected: INFO: /dev/kvm exists — KVM acceleration can be used
   ```
 
-- [ ] Run `virt-host-validate`:
+- [x] Run `virt-host-validate`: *(2026-06-02 — QEMU/KVM lines PASS; two non-blocking warnings)*
   ```bash
   sudo virt-host-validate
   # All entries should PASS
   ```
+  > ⚠️ **Secure guest support:** WARN — not required for standard QEMU/KVM VM operation.  
+  > ⚠️ **LXC freezer controller:** FAIL — LXC-specific; no impact on QEMU/KVM pfSense VM path.
 
-- [ ] Verify virsh works:
+- [x] Verify virsh works: *(confirmed 2026-06-02 — empty table, no VMs)*
   ```bash
   virsh list --all
   # Expected: empty table (no VMs yet)
   ```
 
 **Screenshot checkpoint:** `screenshots/final/11-kvm-ok-verification.png` — `kvm-ok` output ✅  
-**Screenshot checkpoint:** `screenshots/final/12-virt-host-validate.png` — all PASS
+**Screenshot checkpoint:** `screenshots/final/12-libvirt-install-verified.png` — libvirtd status, virsh, groups ✅
 
 ---
 

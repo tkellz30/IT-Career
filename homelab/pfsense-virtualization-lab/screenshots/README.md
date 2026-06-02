@@ -125,14 +125,18 @@ Tailscale source IP (100.x.x.x) — all blurred before committing.
 
 ---
 
-## Pending (After libvirt Install)
+### 12 — libvirt Install Verified ✅
+**Captured:** 2026-06-02  
+**Commands:** `groups`, `virsh list --all`, `sudo systemctl status libvirtd`  
+**Why:** Composite proof of Phase 2 completion — shows libvirt + kvm group membership,
+empty VM list (no stray VMs before pfSense creation), and libvirtd active/running status.  
+**Blur:** Server LAN IP in ssh command (`192.168.0.24`) and source LAN IP in Last login
+line (`192.168.0.14`) — both blurred before committing.  
+**File:** `screenshots/final/12-libvirt-install-verified.png`
 
-### 12 — virt-host-validate All PASS
-**Command:** `sudo virt-host-validate`  
-**When:** After libvirt installed  
-**Why:** Shows production-grade hypervisor configuration (IOMMU, KSM, etc.)  
-**Blur:** Nothing sensitive.  
-**File:** `screenshots/final/12-virt-host-validate.png`
+---
+
+## Pending (After libvirt Install)
 
 ---
 

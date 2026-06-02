@@ -23,6 +23,7 @@ Tracks the server's security posture improvement over time. Update after each co
 | 6 | Tighten Samba guest config | 2026-05-29 | `map to guest = Never`, `usershare allow guests = No` — backed up, testparm validated, smbd/nmbd restarted and confirmed running |
 | 7 | SSH key-only authentication | 2026-05-29 | `PasswordAuthentication no` in `/etc/ssh/sshd_config.d/50-cloud-init.conf` — ED25519 key deployed, three-session verification sequence completed, reload not restart |
 | 9 | Remove exited test containers | 2026-05-29 | `docker rm cool_feynman busy_noether` — Jellyfin and Portainer unaffected |
+| 14 | KVM/libvirt installation | 2026-06-02 | libvirtd active/running; virsh confirmed; user groups set; virt-host-validate QEMU/KVM lines PASS (two non-blocking warnings noted) |
 
 ---
 
@@ -49,7 +50,7 @@ Tracks the server's security posture improvement over time. Update after each co
 
 | # | Item | Phase | Notes |
 |---|---|---|---|
-| 14 | KVM/libvirt installation | Phase 2 | VT-x enabled 2026-06-02; `/dev/kvm` confirmed; ready to install |
+| 15 | pfSense VM deployment | Phase 2 | Requires KVM — libvirt now installed; awaiting VM storage prep and ISO |
 | 15 | pfSense VM deployment | Phase 2 | Requires KVM |
 | 16 | Reverse proxy (Caddy/Traefik) + TLS | Phase 3 | HTTPS for Jellyfin and Portainer |
 | 17 | Fail2ban for SSH brute-force protection | Phase 3 | Extra layer on top of UFW |

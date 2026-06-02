@@ -1,7 +1,7 @@
 # KVM / libvirt Setup
 
-**Status:** ✅ KVM AVAILABLE — VT-x enabled in BIOS. Ready for libvirt installation.  
-**Unblocked:** 2026-06-02 — VT-x enabled; `/dev/kvm` exists; `kvm-ok` confirmed.  
+**Status:** ✅ LIBVIRT INSTALLED — KVM/libvirt fully operational. Ready for VM creation.  
+**Phase 2 complete:** 2026-06-02 — libvirtd active; virsh confirmed; user groups set.  
 **Previously blocked (remote check 2026-06-01):** see Remote Blocker section below.
 
 ---
@@ -60,6 +60,32 @@ VT-x enabled in BIOS with physical access. All indicators now positive:
 *(MOTD IPs blurred: eno1 IPv4, eno1 IPv6, last-login Tailscale source IP)*
 
 BIOS gate cleared. Proceed to Step 2 (libvirt installation).
+
+---
+
+## Phase 2 — libvirt Install Verified (2026-06-02)
+
+KVM/libvirt packages installed. All Phase 2 checks passed:
+
+| Check | Result |
+|---|---|
+| `libvirtd` service | `active (running)`, enabled ✅ |
+| `/dev/kvm` | Exists ✅ |
+| `virsh list --all` | Empty table — no VMs yet (expected) ✅ |
+| `virt-host-validate` — QEMU/KVM lines | All PASS ✅ |
+| `libvirt` + `kvm` group membership | User added ✅ |
+
+**Non-blocking warnings from `virt-host-validate`:**
+
+| Warning | Impact |
+|---|---|
+| `Secure guest support`: WARN | Not required for standard QEMU/KVM VM operation |
+| `LXC: Enable freezer controller`: FAIL | LXC-specific — no impact on QEMU/KVM pfSense VM path |
+
+**Evidence:** `screenshots/final/12-libvirt-install-verified.png`
+*(LAN IPs blurred: server LAN IP in ssh command, source LAN IP in last-login line)*
+
+KVM gate cleared. Proceed to Phase 3 (VM storage preparation) per the readiness checklist.
 
 ---
 
@@ -194,5 +220,5 @@ These are pre-installed by Ubuntu. No additional downloads required once VT-x is
 | Screenshot | Filename | Value |
 |---|---|---|
 | `kvm-ok` output showing KVM acceleration available | `screenshots/final/11-kvm-ok-verification.png` | Proves hypervisor setup |
-| `virt-host-validate` all passing | `screenshots/final/12-virt-host-validate.png` | Shows production-ready hypervisor config |
+| libvirt install verified (libvirtd, virsh, groups) | `screenshots/final/12-libvirt-install-verified.png` | Shows Phase 2 complete — libvirtd active, virsh empty, groups set |
 | `virsh list --all` showing running pfSense VM | `screenshots/final/15-virsh-vm-running.png` | Demonstrates KVM VM management |
