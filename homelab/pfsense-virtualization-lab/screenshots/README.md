@@ -151,13 +151,19 @@ both vnet0 and vnet1 MAC addresses — all blurred. Proof lines intact.
 
 ---
 
-## Pending (After pfSense GUI Setup)
-
-### 13 — pfSense Dashboard
-**URL:** pfSense web GUI (via VNC-over-SSH or direct LAN)  
-**Why:** Shows you can deploy and manage a real firewall appliance.  
-**Blur:** Any WAN IP, license info, or network details depending on context.  
+### 13 — pfSense Dashboard ✅
+**Captured:** 2026-06-02  
+**URL:** `https://127.0.0.1:8443` — SSH tunnel to pfSense LAN GUI at `10.50.0.1`  
+**Why:** Proves pfSense CE 2.8.1 is installed and running in KVM with correct WAN/LAN
+assignment and internet connectivity. Shows real firewall appliance management.  
+**Blur:** Netgate Device ID, user source IP (`admin@10.50.0.2`), all DNS server IPs
+(`127.0.0.1`, `::1`, `192.168.122.1`), WAN IP (`192.168.122.239`), LAN IP (`10.50.0.1`)
+— all blurred. pfSense branding, version, KVM Guest, WAN/LAN status arrows intact.  
 **File:** `screenshots/final/13-pfsense-dashboard.png`
+
+---
+
+## Pending (After pfSense GUI Setup)
 
 ---
 

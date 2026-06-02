@@ -206,7 +206,12 @@ Complete these items **in order**. Do not proceed past a blocked item.
   > Console ping `google.com` — 0% packet loss, DNS resolves ✅  
   > `eno1`, Tailscale, home router — all unaffected ✅
 
-- [ ] Verify pfSense web GUI accessible: *(pending — LAN is isolated; requires test client VM or host route)*
+- [x] Verify pfSense web GUI accessible: *(confirmed 2026-06-02)*
+  > Access via SSH tunnel → `https://127.0.0.1:8443` → pfSense LAN GUI at `10.50.0.1`  
+  > pfSense CE 2.8.1-RELEASE dashboard loads ✅  
+  > Default admin password changed ✅  
+  > WAN/LAN assignment still correct: `vtnet0` WAN, `vtnet1` LAN ✅  
+  > Note: access is through tunneled lab path only — no production routing active
 
 - [x] **Take VM snapshot before any firewall rule changes:** *(completed 2026-06-02)*
   ```bash
