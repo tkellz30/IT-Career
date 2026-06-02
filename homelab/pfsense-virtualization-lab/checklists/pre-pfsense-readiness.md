@@ -187,20 +187,31 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 ## Phase 6 — pfSense VM Creation
 
-- [ ] Create VM disk image:
+- [x] Create VM disk image: *(completed 2026-06-02)*
   ```bash
-  sudo qemu-img create -f qcow2 /var/lib/libvirt/vms/pfsense.qcow2 20G
+  virsh vol-create-as nvme-vms pfsense-lab.qcow2 20G --format qcow2
   ```
+  > Path: `/mnt/fast-storage/vms/pfsense-lab.qcow2` — qcow2, thin-provisioned via `nvme-vms` pool
 
-- [ ] Install pfSense via virt-install (see [docs/04-pfsense-planning.md](../docs/04-pfsense-planning.md))
+- [x] Install pfSense via virt-install: *(completed 2026-06-02 — see [docs/04-pfsense-planning.md](../docs/04-pfsense-planning.md))*
+  > VM: `pfsense-lab` — 2 vCPUs, 2048 MB RAM, persistent yes, autostart disabled  
+  > ISO decompressed from `.iso.gz`; installed via VNC-over-SSH tunnel  
+  > CD-ROM slot empty post-install (`virsh domblklist` hda: `-`) ✅
 
-- [ ] Complete pfSense initial setup wizard via VNC-over-SSH tunnel
+- [x] Complete pfSense initial setup wizard via VNC-over-SSH tunnel: *(completed 2026-06-02)*
+  > pfSense 2.8.1-RELEASE booted successfully  
+  > WAN: `vtnet0` → libvirt `default` NAT → DHCP `192.168.122.x/24` ✅  
+  > LAN: `vtnet1` → `pfsense-lab-lan` → `10.50.0.1/24` ✅  
+  > Console ping `8.8.8.8` — 0% packet loss ✅  
+  > Console ping `google.com` — 0% packet loss, DNS resolves ✅  
+  > `eno1`, Tailscale, home router — all unaffected ✅
 
-- [ ] Verify pfSense web interface accessible from Tailscale or LAN
+- [ ] Verify pfSense web GUI accessible: *(pending — LAN is isolated; requires test client VM or host route)*
 
 - [ ] **Take VM snapshot before any firewall rule changes:**
   ```bash
-  virsh snapshot-create-as pfsense "fresh-install" --description "Clean pfSense install"
+  virsh snapshot-create-as pfsense-lab "fresh-install" \
+    --description "Clean pfSense 2.8.1 install before any rule changes"
   ```
 
 **Screenshot checkpoint:** `screenshots/final/13-pfsense-dashboard.png` — pfSense dashboard  

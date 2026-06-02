@@ -140,7 +140,18 @@ line (`192.168.0.14`) — both blurred before committing.
 
 ---
 
-## Pending (After pfSense VM)
+### 15 — virsh VM Running Verified ✅
+**Captured:** 2026-06-02  
+**Commands:** `virsh list --all`, `virsh dominfo pfsense-lab`, `virsh domiflist pfsense-lab`  
+**Why:** Composite proof of Phase 6 — VM running, correct resources (2 vCPU/2 GB), correct NIC
+mapping (vnet0→default WAN, vnet1→pfsense-lab-lan LAN), AppArmor enforcing, autostart disabled.  
+**Blur:** Tailscale IP in SSH tunnel command, UUID value, AppArmor security label string,
+both vnet0 and vnet1 MAC addresses — all blurred. Proof lines intact.  
+**File:** `screenshots/final/15-virsh-vm-running.png`
+
+---
+
+## Pending (After pfSense GUI Setup)
 
 ### 13 — pfSense Dashboard
 **URL:** pfSense web GUI (via VNC-over-SSH or direct LAN)  
@@ -158,10 +169,13 @@ line (`192.168.0.14`) — both blurred before committing.
 
 ---
 
-### 15 — virsh list --all (VM Running)
-**Command:** `virsh list --all`  
-**Why:** Shows KVM VM management from the CLI — relevant to cloud and infrastructure roles.  
-**Blur:** Nothing sensitive.  
+### 15 — virsh VM Running Verified
+**Commands:** `virsh list --all`, `virsh dominfo pfsense-lab`, `virsh domiflist pfsense-lab`  
+**Why:** Composite proof of Phase 6 — VM running, correct resources (2 vCPU/2 GB), correct NIC
+mapping (vnet0→default WAN, vnet1→pfsense-lab-lan LAN), AppArmor enforcing, autostart disabled.  
+**Blur:** Tailscale IP in SSH tunnel command, VM UUID, MAC addresses (both NICs), AppArmor
+security label string (contains UUID). Proof lines to keep: `pfsense-lab running`, CPU/RAM,
+`autostart: disable`, vnet0/vnet1 source and model, disk path, `cdrom hda -`.  
 **File:** `screenshots/final/15-virsh-vm-running.png`
 
 ---

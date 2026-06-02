@@ -1,6 +1,6 @@
 # pfSense Virtualization Planning
 
-**Status:** 🟡 In Progress — Phase 5 network planning complete; VM creation pending  
+**Status:** 🟡 In Progress — pfSense VM deployed and booted (2026-06-02); web GUI access pending  
 **Prerequisite:** [docs/03-kvm-libvirt-setup.md](03-kvm-libvirt-setup.md)
 
 ---
