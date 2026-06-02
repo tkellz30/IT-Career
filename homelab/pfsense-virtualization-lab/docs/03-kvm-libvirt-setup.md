@@ -1,7 +1,8 @@
 # KVM / libvirt Setup
 
-**Status:** ⚠️ BLOCKED — VT-x not exposed to Ubuntu. Physical BIOS access required.  
-**Re-verified (remote):** 2026-06-01 — KVM unavailable, findings unchanged.
+**Status:** ✅ KVM AVAILABLE — VT-x enabled in BIOS. Ready for libvirt installation.  
+**Unblocked:** 2026-06-02 — VT-x enabled; `/dev/kvm` exists; `kvm-ok` confirmed.  
+**Previously blocked (remote check 2026-06-01):** see Remote Blocker section below.
 
 ---
 
@@ -41,6 +42,24 @@ is available.
 
 **Unblocking requires:** Physical access to enable Intel Virtualization Technology in BIOS.
 See Step 1 below.
+
+---
+
+## VT-x Enabled — Verification Record (2026-06-02)
+
+VT-x enabled in BIOS with physical access. All indicators now positive:
+
+| Check | Command | Result |
+|---|---|---|
+| CPU flags | `grep -o 'vmx\|svm' /proc/cpuinfo` | `vmx` ✅ |
+| lscpu | `lscpu \| grep -i virtualization` | `Virtualization: VT-x` ✅ |
+| Device node | `ls -la /dev/kvm` | `crw-rw---- 1 root kvm` ✅ |
+| kvm-ok | `sudo kvm-ok` | `INFO: /dev/kvm exists` / `KVM acceleration can be used` ✅ |
+
+**Evidence:** `screenshots/final/11-kvm-ok-verification.png`
+*(MOTD IPs blurred: eno1 IPv4, eno1 IPv6, last-login Tailscale source IP)*
+
+BIOS gate cleared. Proceed to Step 2 (libvirt installation).
 
 ---
 
@@ -174,6 +193,6 @@ These are pre-installed by Ubuntu. No additional downloads required once VT-x is
 
 | Screenshot | Filename | Value |
 |---|---|---|
-| `kvm-ok` output showing KVM acceleration available | `screenshots/final/11-kvm-ok-verified.png` | Proves hypervisor setup |
+| `kvm-ok` output showing KVM acceleration available | `screenshots/final/11-kvm-ok-verification.png` | Proves hypervisor setup |
 | `virt-host-validate` all passing | `screenshots/final/12-virt-host-validate.png` | Shows production-ready hypervisor config |
 | `virsh list --all` showing running pfSense VM | `screenshots/final/15-virsh-vm-running.png` | Demonstrates KVM VM management |

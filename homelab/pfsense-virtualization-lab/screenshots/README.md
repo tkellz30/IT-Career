@@ -114,16 +114,18 @@ Confirms both drives are mounted and sized correctly, matching the written basel
 
 ---
 
-## Pending (After BIOS Fix)
-
-### 11 — kvm-ok Verified
-**Command:** `sudo kvm-ok`  
-**When:** After enabling VT-x in BIOS  
-**Why:** Proves hypervisor capability. Strong signal for infrastructure roles.  
-**Blur:** Nothing sensitive.  
-**File:** `screenshots/final/11-kvm-ok-verified.png`
+### 11 — kvm-ok Verification ✅
+**Captured:** 2026-06-02  
+**Commands:** `grep -o 'vmx\|svm' /proc/cpuinfo`, `lscpu | grep -i virtualization`, `ls -la /dev/kvm`, `sudo kvm-ok`  
+**Why:** Proves VT-x is active in BIOS and KVM acceleration is available to Ubuntu. Confirms
+the BIOS gate is cleared and Phase 2 (libvirt installation) can proceed.  
+**Blur:** IPv4 address (eno1 MOTD line), IPv6 address (eno1 MOTD line), and last-login
+Tailscale source IP (100.x.x.x) — all blurred before committing.  
+**File:** `screenshots/final/11-kvm-ok-verification.png`
 
 ---
+
+## Pending (After libvirt Install)
 
 ### 12 — virt-host-validate All PASS
 **Command:** `sudo virt-host-validate`  

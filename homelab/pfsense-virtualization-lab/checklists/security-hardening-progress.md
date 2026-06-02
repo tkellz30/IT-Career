@@ -49,7 +49,7 @@ Tracks the server's security posture improvement over time. Update after each co
 
 | # | Item | Phase | Notes |
 |---|---|---|---|
-| 14 | KVM/libvirt installation | Phase 2 | Blocked: VT-x disabled in BIOS |
+| 14 | KVM/libvirt installation | Phase 2 | VT-x enabled 2026-06-02; `/dev/kvm` confirmed; ready to install |
 | 15 | pfSense VM deployment | Phase 2 | Requires KVM |
 | 16 | Reverse proxy (Caddy/Traefik) + TLS | Phase 3 | HTTPS for Jellyfin and Portainer |
 | 17 | Fail2ban for SSH brute-force protection | Phase 3 | Extra layer on top of UFW |

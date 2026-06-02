@@ -18,19 +18,19 @@ Complete these items **in order**. Do not proceed past a blocked item.
 
 ## Phase 1 — BIOS / Hardware (Physical Access Required)
 
-- [ ] **Enable Intel VT-x in BIOS**
+- [x] **Enable Intel VT-x in BIOS** *(completed 2026-06-02)*
   - Boot to BIOS setup (DEL or F2 on POST screen)
   - Navigate: Advanced → CPU Configuration → Intel Virtualization Technology
   - Set: **Enabled**
   - Save and reboot
   
-- [ ] Verify VT-x active:
+- [x] Verify VT-x active: *(confirmed 2026-06-02)*
   ```bash
   grep -o 'vmx' /proc/cpuinfo | head -1
   # Expected: vmx
   ```
 
-- [ ] Verify `/dev/kvm` exists:
+- [x] Verify `/dev/kvm` exists: *(confirmed 2026-06-02)*
   ```bash
   ls -la /dev/kvm
   # Expected: crw-rw---- 1 root kvm ...
@@ -82,7 +82,7 @@ Complete these items **in order**. Do not proceed past a blocked item.
   # Expected: empty table (no VMs yet)
   ```
 
-**Screenshot checkpoint:** `screenshots/final/11-kvm-ok-verified.png` — `kvm-ok` output  
+**Screenshot checkpoint:** `screenshots/final/11-kvm-ok-verification.png` — `kvm-ok` output ✅  
 **Screenshot checkpoint:** `screenshots/final/12-virt-host-validate.png` — all PASS
 
 ---
