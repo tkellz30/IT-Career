@@ -222,7 +222,7 @@ Complete these items **in order**. Do not proceed past a blocked item.
   > Restore: `virsh snapshot-revert pfsense-lab fresh-install`
 
 **Screenshot checkpoint:** `screenshots/final/13-pfsense-dashboard.png` — pfSense dashboard  
-**Screenshot checkpoint:** `screenshots/final/14-pfsense-firewall-rules.png` — firewall rules  
+**Screenshot checkpoint:** `screenshots/final/14-pfsense-firewall-rules.png` — firewall rules ✅ *(default LAN baseline captured 2026-06-02)*  
 **Screenshot checkpoint:** `screenshots/final/15-virsh-vm-running.png` — `virsh list` output
 
 ---

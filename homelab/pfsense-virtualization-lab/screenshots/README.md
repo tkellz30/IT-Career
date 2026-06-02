@@ -167,10 +167,14 @@ assignment and internet connectivity. Shows real firewall appliance management.
 
 ---
 
-### 14 — pfSense Firewall Rules
-**Location:** pfSense → Firewall → Rules  
-**Why:** Demonstrates firewall rule design — a core skill in networking and security roles.  
-**Blur:** Any external IPs.  
+### 14 — pfSense Firewall Rules ✅
+**Captured:** 2026-06-02  
+**Location:** pfSense → Firewall → Rules → LAN tab  
+**Why:** Documents the default LAN firewall rule baseline before any hardening — shows the
+three default rules (Anti-Lockout, Default allow IPv4, Default allow IPv6) that pfSense
+ships with. Proof of working firewall GUI and understanding of default policy.  
+**Blur:** None required — all source/destination values are pfSense built-in aliases
+(`LAN Address`, `LAN subnets`, `*`) with no actual IPs, MACs, or sensitive identifiers.  
 **File:** `screenshots/final/14-pfsense-firewall-rules.png`
 
 ---
