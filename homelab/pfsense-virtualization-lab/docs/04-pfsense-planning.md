@@ -1,6 +1,7 @@
 # pfSense Virtualization Planning
 
-**Status:** 🟡 In Progress — pfSense VM deployed and booted (2026-06-02); web GUI access pending  
+**Status:** ✅ Complete — virtual firewall baseline validated 2026-06-04  
+**Validation:** [docs/10-pfsense-lab-validation.md](10-pfsense-lab-validation.md)  
 **Prerequisite:** [docs/03-kvm-libvirt-setup.md](03-kvm-libvirt-setup.md)
 
 ---

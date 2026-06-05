@@ -190,6 +190,55 @@ security label string (contains UUID). Proof lines to keep: `pfsense-lab running
 
 ---
 
+## Milestone: Virtual Firewall Baseline + Rule Validation ✅
+
+### 16 — Test Client Network Verified ✅
+**Captured:** 2026-06-04  
+**Commands:** `ip -br addr`, `ip route`, `ping -c 3 10.50.0.1`, `ping -c 3 8.8.8.8`, `ping -c 3 google.com`, `curl -k -I https://10.50.0.1`  
+**Why:** Proves the Debian test-client VM received DHCP from pfSense (10.50.0.100/24),
+gateway is 10.50.0.1, internet works through pfSense NAT, DNS resolves, and pfSense GUI
+is reachable (HTTP/2 200) — end-to-end virtual lab connectivity confirmed.  
+**Blur:** IPv6 address on enp1s0, CDN IP in google.com ping output, PHPSESSID session
+token in curl set-cookie header — all blurred. Lab IPs 10.50.0.100/10.50.0.1 retained.  
+**File:** `screenshots/final/16-test-client-network-verified.png`
+
+---
+
+### 17 — Firewall Rule Test Result ✅
+**Captured:** 2026-06-04  
+**Source:** TigerVNC session to Debian test-client VM  
+**Why:** Proves selective firewall enforcement: 8.8.8.8 ping blocks with 100% loss when
+the block rule is active, while google.com (DNS) and 10.50.0.1 (gateway) remain
+reachable — demonstrating per-protocol, per-destination rule precision.  
+**Blur:** CDN IP `74.125.136.139` in google.com ping output — blurred. Ping pass/fail
+results, gateway reachability, and TigerVNC window title intact.  
+**File:** `screenshots/final/17-firewall-rule-test-result.png`
+
+---
+
+### 18 — pfSense LAN Rule Created ✅
+**Captured:** 2026-06-04  
+**Location:** pfSense → Firewall → Rules → LAN  
+**Why:** Shows the block rule was explicitly created in pfSense — IPv4 ICMP from test
+client to 8.8.8.8, enabled (red X), alongside the default allow rules. Pairs with
+screenshot 17 as the firewall-side proof of the rule that caused the observed blocking.  
+**Blur:** Source IP in block rule row — blurred. Rule description, action icon, protocol,
+and destination `8.8.8.8` intact.  
+**File:** `screenshots/final/18-pfsense-lan-rule-created.png`
+
+---
+
+### 19 — pfSense WAN Rules Baseline ✅
+**Captured:** 2026-06-04  
+**Location:** pfSense → Firewall → Rules → WAN  
+**Why:** Optional supporting context — shows WAN default-deny posture: RFC 1918 and bogon
+block rules, no inbound pass rules. Confirms the WAN side is not open to unsolicited traffic.  
+**Blur:** None required — only generic source labels (RFC 1918 networks, Reserved/Not
+assigned by IANA), no actual IPs, MACs, or credentials.  
+**File:** `screenshots/final/19-pfsense-wan-rules-baseline.png`
+
+---
+
 ## Screenshot Naming Convention
 
 ```

@@ -221,9 +221,27 @@ Complete these items **in order**. Do not proceed past a blocked item.
   > Snapshot `fresh-install` created — 2026-06-02 17:59:11 +0000, state: running ✅  
   > Restore: `virsh snapshot-revert pfsense-lab fresh-install`
 
-**Screenshot checkpoint:** `screenshots/final/13-pfsense-dashboard.png` — pfSense dashboard  
+**Screenshot checkpoint:** `screenshots/final/13-pfsense-dashboard.png` — pfSense dashboard ✅  
 **Screenshot checkpoint:** `screenshots/final/14-pfsense-firewall-rules.png` — firewall rules ✅ *(default LAN baseline captured 2026-06-02)*  
-**Screenshot checkpoint:** `screenshots/final/15-virsh-vm-running.png` — `virsh list` output
+**Screenshot checkpoint:** `screenshots/final/15-virsh-vm-running.png` — `virsh list` output ✅
+
+---
+
+## Milestone: Virtual Firewall Baseline + Rule Validation ✅
+
+*(completed 2026-06-04 — see [docs/10-pfsense-lab-validation.md](../docs/10-pfsense-lab-validation.md))*
+
+- [x] Test client VM (`test-client`) created on `pfsense-lab-lan` only
+- [x] DHCP: test client received `10.50.0.100/24` from pfSense
+- [x] Gateway: `10.50.0.1` reachable, 0% loss
+- [x] Internet via pfSense NAT: `8.8.8.8` and `google.com` resolve and respond
+- [x] pfSense web GUI reachable from LAN client (`https://10.50.0.1`, HTTP/2 200)
+- [x] Firewall rule test: block IPv4 ICMP from `10.50.0.100` to `8.8.8.8`
+  > Rule active → `8.8.8.8` 100% loss; `google.com` and gateway unaffected ✅  
+  > Rule disabled → `8.8.8.8` restored to 0% loss ✅
+- [x] Test rule disabled after validation; default allow rules remain active
+
+**Screenshot evidence:** `16-test-client-network-verified.png` · `17-firewall-rule-test-result.png` · `18-pfsense-lan-rule-created.png` · `19-pfsense-wan-rules-baseline.png`
 
 ---
 
