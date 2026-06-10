@@ -22,14 +22,22 @@ Everything here ran on actual hardware. The troubleshooting logs are real failur
 | Project | What It Covers |
 |---------|---------------|
 | [Ubuntu Server Homelab →](homelab/README.md) | Ubuntu Server, Docker, Tailscale, Samba, VLAN lab — full writeup with troubleshooting log |
-| [pfSense Virtualization Lab →](homelab/pfsense-virtualization-lab/README.md) | Bare-metal Ubuntu 24.04 security hardening, UFW, SSH key auth, Samba hardening, KVM/pfSense planned |
+| [pfSense Virtualization Lab →](homelab/pfsense-virtualization-lab/README.md) | KVM/libvirt, pfSense router migration, DHCP/firewall testing, rollback planning |
 | [Pi-hole DNS Filtering Lab →](homelab/pihole-dns-filtering-lab/README.md) | Pi-hole + Unbound on Raspberry Pi — DNS sinkhole, blocklist tuning, mesh troubleshooting |
 | [Screenshots →](screenshots/final/) | Portfolio-ready screenshots, all reviewed for sensitive info |
 | [Resume →](resume/trea_resume_master.md) | Current resume |
 
 ---
 
-## Projects
+## Featured Projects
+
+- **Linux Homelab Infrastructure** — Ubuntu Server on repurposed Lenovo hardware; headless setup via SSH and Tailscale VPN; Docker, Portainer, Jellyfin; persistent NVMe storage via `/etc/fstab`; Samba SMB file sharing; architecture notes and troubleshooting logs
+- **pfSense Home Network & Router Migration** — pfSense deployed in a KVM/libvirt VM; WAN/LAN interface planning, DHCP, firewall rules, and gateway/internet validation; rollback plan documented; VLAN segmentation planned for trusted, guest, IoT, and work devices
+- **Wireless & Network Infrastructure Upgrade** — Cisco AIR-AP2802I access point with Mobility Express; managed PoE switch planning; Wi-Fi and client troubleshooting; link speed, cabling, and DHCP lease diagnostics; future SSID-to-VLAN segmentation planned
+- **USB Maintenance Toolkit** — Portable Windows IT support toolkit with PowerShell scripts, a GUI launcher, vendor diagnostics, and documented workflows for Dell, HP, Lenovo, and Windows Update
+- **Nonprofit Website Build** — Multi-page site built with Next.js, React, and Tailwind CSS; client-facing pages including Donate, About, Projects, Request Help, Contact, and Privacy
+
+---
 
 ### Ubuntu Server Homelab
 
@@ -158,13 +166,14 @@ These are actual failures from the build — not contrived exercises. The diagno
 - Managed switch VLAN configuration via serial console (ADTRAN NetVanta)
 - CompTIA Network+ ✓
 - CompTIA Security+ ✓
+- pfSense router migration (KVM/libvirt VM, DHCP, firewall rules, gateway validation)
 
 **In Progress:**
 - CCNA lab work (subnetting, routing protocols, switching)
 - Network segmentation and VLAN trunking
 
 **Up Next:**
-- pfSense firewall deployment and configuration
+- VLAN segmentation (trusted, guest, IoT, work) with SSID-to-VLAN mapping
 - Monitoring stack (Uptime Kuma or Grafana + Prometheus)
 - Docker Compose migration for reproducible container definitions
 - Log aggregation and SIEM tooling (Graylog or ELK stack)
