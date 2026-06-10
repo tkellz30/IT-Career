@@ -239,6 +239,106 @@ assigned by IANA), no actual IPs, MACs, or credentials.
 
 ---
 
+## Planned — Production Router Migration
+
+These screenshots support the production router migration phase
+(see [docs/11-production-router-migration.md](../docs/11-production-router-migration.md)
+and [checklists/production-router-cutover.md](../checklists/production-router-cutover.md)).
+
+**Status note (2026-06-08, updated 2026-06-07):** the underlying technical milestones
+for screenshots 21–25 and 28 — clone created, booted in safe lab mode, **functionally
+validated end-to-end with a Debian `test-client`** (DHCP, gateway, internet routing, and
+DNS all passing with 0% packet loss), two snapshots captured (`safe-clone-baseline` and
+`safe-lab-validated`), and the **Realtek RTL8152 USB-to-Ethernet adapter detected by
+pfSense itself as `ue0`** — have now been **completed and verified at the terminal**.
+In particular, the evidence underlying screenshot **24** (safe-lab-network verification),
+screenshot **25** (USB Ethernet detection — `ue0` visible in pfSense, `usbconfig`
+confirms the Realtek hardware), and the snapshot-evidence underlying screenshot **28**
+are now considered **ready to capture** — the terminal output exists and has been
+reviewed; it just needs to be saved as redacted `.png` files in this directory.
+**No actual screenshot image files have been captured or saved yet** for any of
+20–30 — the table below still reflects what each one *will* document. No placeholders
+or fake screenshots have been created. Each row will be updated with a real filename
+entry, full description, and redaction confirmation only once the corresponding `.png`
+exists in `screenshots/final/`.
+
+**Additional evidence ready/captured — LAN bridge rollback test (2026-06-09):** the
+terminal evidence for the host-level Netplan bridge rollback drill on `esther` (draft
+`br-lan` bridge config applied as a test, remote connectivity briefly dropped, prepared
+systemd rollback timer auto-restored `eno1` to `192.168.0.24/24` with its original
+DHCP Netplan config and default route) is **ready/captured** — see
+[docs/11-production-router-migration.md](../docs/11-production-router-migration.md#progress-log)
+and the new tested case in
+[rollback/production-router-rollback.md](../rollback/production-router-rollback.md).
+This event is **not** on the original #20–30 list (it's a host-networking rollback
+drill, not a pfSense/VM milestone), so no screenshot filename or row has been assigned
+to it here yet. **The raw terminal captures for this event contain `esther`'s real LAN
+IP (`192.168.0.24`), gateway (`192.168.0.1`), and Netplan/interface details and MUST be
+redacted** (per the existing internal/external-IP and identifier redaction notes below)
+**before any public use** — no image file has been saved or committed.
+
+**Additional evidence ready/captured — successful `br-lan` host bridge milestone
+(2026-06-10):** the terminal evidence for the *successful* retry of the host bridge
+change — performed with local console access available, per the caution raised after
+the rollback drill above — is **ready/captured**. This includes the Netplan bridge
+config (`eno1: dhcp4: false`, `br-lan` with `eno1` as member, `dhcp4: true`), the new
+DHCP lease (`br-lan` → `192.168.0.28/24`, default route `192.168.0.1 dev br-lan`), and
+the internet/DNS verification (`ping -c 4 1.1.1.1` and `ping -c 4 google.com`, each
+4/4 received, 0% packet loss). See
+[docs/11-production-router-migration.md](../docs/11-production-router-migration.md#progress-log)
+and the new known-good bridge state recorded in
+[rollback/production-router-rollback.md](../rollback/production-router-rollback.md).
+Like the rollback-drill evidence above, this event is **not** on the original #20–30
+list and has no assigned filename/row. **Before any public use, the raw captures MUST
+be redacted for: MAC addresses (bridge/member-interface MACs shown in `ip -br link`
+or `bridge link` output), IPv6 addresses (alongside the IPv4 lease in `ip -br addr`),
+Tailscale IPs (`100.x.x.x`), and internal IPs (`192.168.0.28`, `192.168.0.1`,
+`esther`'s LAN subnet)** — consistent with the redaction precedents already established
+for screenshots 15, 16, and 22. **This milestone proves the host bridge works — it
+does not mean pfSense is the home router yet; no pfSense interface is attached to
+`br-lan`.** No image file has been saved or committed.
+
+| # | Filename | Will document | Evidence status |
+|---|---|---|---|
+| 20 | `20-host-network-interfaces-before-cutover.png` | Baseline interface state — `eno1` active, USB adapter down, Tailscale present | Not yet captured |
+| 21 | `21-pfsense-lab-running-before-clone.png` | Proof `pfsense-lab` is untouched and running before cloning | Underlying state confirmed (lab VM shut off/untouched) — image not yet captured |
+| 22 | `22-pfsense-prod-clone-created.png` | `virt-clone` output / `virsh list --all` showing both VMs as independent entities | Terminal evidence reviewed (`virsh domiflist`/`domblklist pfsense-prod`, `virsh list --all` showing `pfsense-prod running` / `pfsense-lab shut off`) — image not yet captured |
+| 23 | `23-pfsense-prod-first-boot.png` | `pfsense-prod` booting cleanly as its own VM | VM confirmed running — GUI/first-boot screenshot not yet captured |
+| 24 | `24-pfsense-prod-safe-lab-network-verified.png` | `pfsense-prod` verified working on an isolated/NAT network, no physical NICs attached | **Ready to capture** — full functional validation completed via `test-client`: DHCP lease (`10.50.0.100/24`, gateway `10.50.0.1`), `ping -c 4 10.50.0.1` / `ping -c 4 1.1.1.1` / `ping -c 4 google.com` each 4/4 received, 0% loss; `ip -br addr` and `ip route` output reviewed at the terminal — image not yet saved as a file |
+| 25 | `25-usb-ethernet-detected.png` | pfSense itself detecting the Realtek RTL8152 USB-to-Ethernet adapter as a WAN candidate (`ue0`) | **Ready to capture** — `pfsense-prod` booted with the adapter attached via USB passthrough; `ifconfig -l` shows `ue0`, `ifconfig ue0` shows `media: Ethernet autoselect (none)` / `status: no carrier` (expected, no cable connected), and `usbconfig` confirms `RTL8152 Fast Ethernet Adapter` / `Realtek Semiconductor Corp.` — detection only, `ue0` not assigned to any role; image not yet saved as a file |
+| 26 | `26-switch-vlan-plan.png` | PoE switch basic configuration/plan (pre-VLAN) | Not yet attempted — switch not yet plugged in |
+| 27 | `27-cisco-ap-management-access.png` | Cisco AP reachable via its management interface | Not yet attempted |
+| 28 | `28-pfsense-prod-snapshot-before-physical-nic-change.png` | `virsh snapshot-list pfsense-prod` showing the pre-physical-NIC snapshot | **Snapshot evidence ready to capture** — `virsh snapshot-list pfsense-prod` now shows two verified, restorable snapshots (`safe-clone-baseline`, `safe-lab-validated`); note the *specific* pre-physical-NIC snapshot this filename refers to (Phase 9) has not been created yet — current snapshot evidence documents the pre-cutover baseline/validation state, not the pre-physical-NIC point specifically — image not yet saved as a file |
+| 29 | `29-physical-nic-assignment-planned.png` | Documented WAN/LAN interface mapping before physical changes are made | Not yet attempted |
+| 30 | `30-final-topology-after-cutover.png` | Final validated topology after cutover is complete | Not yet attempted — cutover has not started |
+
+**Planned redactions for all of the above (before any public commit):** public IPs,
+internal/external IPs, MAC addresses, Tailscale IPs, **IPv6 addresses**, serial numbers,
+tokens/keys/passwords, sensitive hostnames, and unnecessary internal network details.
+
+> ⚠️ **Specific notes for upcoming captures:**
+> - **`virsh domiflist` output** (relevant to screenshot 22 and any future NIC-related
+>   captures): includes the **MAC addresses** of each VM's virtual NICs (e.g.,
+>   `vnet0`/`vnet1` entries for `pfsense-prod`). These **must be blurred or redacted**
+>   before any such screenshot is committed publicly — consistent with how MAC
+>   addresses were already handled in screenshot 15 (`virsh domiflist pfsense-lab`).
+> - **`test-client` terminal output** (relevant to screenshot 24): `ip -br addr` shows
+>   an **IPv6 address** alongside the IPv4 lease on `enp1s0` — this **must be blurred**
+>   before public use, consistent with how the IPv6 address was redacted in screenshot 16
+>   (`16-test-client-network-verified.png`). The lab IPv4 addresses (`10.50.0.100`,
+>   `10.50.0.1`) and the public test destinations (`1.1.1.1`, `google.com`/`172.253.124.139`)
+>   are not sensitive and may remain visible, matching the precedent set in screenshots
+>   16 and 17 for the original lab validation.
+> - **`ifconfig ue0` output** (relevant to screenshot 25 — USB Ethernet detection):
+>   shows the adapter's **MAC address** directly in the output. This **must be blurred
+>   or redacted** before public use, matching the precedent set in screenshots 15 and 22
+>   for VM/interface MAC addresses. Unnecessary internal identifiers (e.g., the full
+>   `usbusN`/`ugenN.N` enumeration lines for unrelated host USB controllers shown in
+>   `usbconfig`) should also be cropped or blurred — only the Realtek RTL8152 entry and
+>   the `ue0` interface lines are relevant to the story this screenshot tells.
+
+---
+
 ## Screenshot Naming Convention
 
 ```

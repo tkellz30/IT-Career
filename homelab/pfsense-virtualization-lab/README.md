@@ -95,9 +95,14 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 | [docs/07-verification-and-testing.md](docs/07-verification-and-testing.md) | Verification methodology and change records |
 | [docs/08-security-review.md](docs/08-security-review.md) | Security audit findings and remediations |
 | [docs/09-ssh-hardening.md](docs/09-ssh-hardening.md) | SSH key authentication hardening — ED25519 setup, cloud-init override, verification sequence |
+| [docs/10-pfsense-lab-validation.md](docs/10-pfsense-lab-validation.md) | pfSense virtual lab validation — connectivity and firewall rule test results |
+| [docs/11-production-router-migration.md](docs/11-production-router-migration.md) | Planning: migrating pfSense from virtual lab to production home-router role |
+| [docs/12-vlan-switch-and-ap-design.md](docs/12-vlan-switch-and-ap-design.md) | Future plan: PoE switch, Cisco/Deco AP roles, and VLAN segmentation design |
 | [checklists/pre-pfsense-readiness.md](checklists/pre-pfsense-readiness.md) | Step-by-step pfSense readiness checklist |
+| [checklists/production-router-cutover.md](checklists/production-router-cutover.md) | Phased checkbox checklist for the production router cutover with go/no-go gates |
 | [checklists/security-hardening-progress.md](checklists/security-hardening-progress.md) | Security posture tracking |
 | [rollback/networking-rollback-procedures.md](rollback/networking-rollback-procedures.md) | Safe rollback steps for all network changes |
+| [rollback/production-router-rollback.md](rollback/production-router-rollback.md) | Rollback procedures specific to the production router cutover |
 | [configs/ufw-rules-esther.md](configs/ufw-rules-esther.md) | Documented UFW rule set with rationale |
 | [screenshots/README.md](screenshots/README.md) | Evidence collection index |
 
@@ -157,6 +162,7 @@ A portfolio-quality bare-metal homelab documenting the full lifecycle of a produ
 - [ ] KVM/libvirt installation and verification
 - [ ] pfSense VM deployment
 - [ ] Docker network hardening (UFW bypass fix)
+- [ ] Production Router Migration — planned/in progress (see [docs/11-production-router-migration.md](docs/11-production-router-migration.md))
 - [x] Samba guest configuration tightening
 - [x] SSH key-only authentication
 - [ ] LVM volume extension (recover 362 GB)
