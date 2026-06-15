@@ -7,36 +7,33 @@ michaeltkellyiii@gmail.com | LinkedIn: linkedin.com/in/trea-kelly-03b0352b4 | Gi
 
 ## Professional Summary
 
-IT support professional with 2½ years of Tier 1 helpdesk experience in an ISP environment. Skilled in endpoint troubleshooting, network diagnostics, user account administration, and technical documentation. Holds CompTIA Network+ and Security+ certifications. Built and documented a Linux server homelab to develop hands-on skills in system administration, containerization, remote access, and infrastructure troubleshooting. Currently pursuing CCNA. Comfortable working under SLA requirements and communicating clearly with both technical and non-technical users.
+IT support professional with 2+ years of Tier 1 experience in a small business ISP environment, specializing in network troubleshooting — DNS failures, DHCP issues, CPE/router diagnostics, and connectivity triage across wired and wireless layers. Holds CompTIA Network+ and Security+ certifications; pursuing Cisco CCNA (Target: Q4 2026). Documents hands-on network infrastructure projects using pfSense, KVM/libvirt, managed switching, Cisco wireless, Pi-hole/Unbound, and Tailscale. Open to IT Support, Network Support, Infrastructure Support, NOC/SOC, and technical support roles that build on troubleshooting, networking, and security fundamentals.
 
 ---
 
 ## Technical Skills
 
-**Support & Platforms**
-Helpdesk Tier 1/2 Support · ManageEngine ServiceDesk Plus · Remote Desktop Tools · Microsoft 365 (User & License Management) · Windows 10/11 · macOS · Linux (Ubuntu Server)
-
 **Networking**
-TCP/IP · DNS · DHCP · SSH · VPN / Secure Remote Access (Tailscale / WireGuard) · Network Connectivity Troubleshooting · ISP-Level Diagnostics
+TCP/IP · DNS · DHCP · VLANs/network segmentation · pfSense · UniFi Controller · Cisco AIR-AP2802I / Mobility Express · TP-Link managed switches · Pi-hole · Unbound · Tailscale · ping · traceroute · nslookup · ipconfig
 
-**Infrastructure & Tools**
-Docker · Portainer · Samba (SMB) · Bash CLI · `/etc/fstab` / Storage Management · VS Code (Remote-SSH)
+**Systems / Virtualization**
+Ubuntu Server · KVM/libvirt · Docker · Portainer · Samba/SMB · SSH · VS Code Remote-SSH · storage pools · /etc/fstab
 
-**Security**
-User Account Management · Access Permissions · Password Policies · Security Best Practices (CompTIA Security+)
+**Microsoft / Admin**
+Microsoft 365 Admin Center · user account management · license assignment · access permissions · MFA/account troubleshooting
 
-**Documentation**
-GitHub · Markdown · Troubleshooting Logs · Technical Write-Ups · Architecture Documentation
+**Tools / Documentation**
+GitHub · Markdown documentation · network diagrams · internal web-based ticketing portal · remote access tools
 
 ---
 
 ## Certifications
 
 | Certification | Status |
-|--------------|--------|
+|---|---|
 | CompTIA Network+ | Active |
 | CompTIA Security+ | Active |
-| Cisco CCNA | In Progress |
+| Cisco CCNA | In Progress — Target: Q4 2026 |
 
 ---
 
@@ -44,41 +41,45 @@ GitHub · Markdown · Troubleshooting Logs · Technical Write-Ups · Architectur
 
 ### Tier 1 Helpdesk Support | First City Internet | 2023 – Present
 
-- Provide technical support to residential and business customers via phone, email, and remote desktop tools across Windows and macOS environments
-- Diagnose and resolve hardware, software, and network connectivity issues including modem/router configuration, DNS failures, and ISP-level outages
-- Manage user accounts, licenses, and access permissions using Microsoft 365 and internal administrative tools; reset credentials and apply security controls per policy
-- Document, prioritize, and resolve support tickets in accordance with SLA requirements; escalate to Tier 2 with complete reproduction steps and investigation notes when appropriate
-- Apply structured troubleshooting methodology — narrowing issues by layer (hardware, OS, network, application) before making changes
+- Serve as sole Tier 1 technician providing business internet support to small office clients in an ISP environment; diagnose and resolve connectivity issues across customer devices, local networks, and CPE/router configurations.
+- Assisted with VLAN and network segmentation troubleshooting in a small business ISP environment; gathered symptoms, assessed connectivity scope, and escalated suspected network-layer issues to Tier 2/3 staff.
+- Apply structured triage to isolate connectivity issues — determining whether problems originate at the endpoint, Wi-Fi layer, Ethernet, CPE/modem, or upstream service — before escalating infrastructure-level faults to Tier 2/3 network staff.
+- Use ping, traceroute, ipconfig, nslookup, and remote access tools alongside router/modem portals and UniFi controller to diagnose issues; escalate ISP-side outages, provisioning failures, and network-layer problems requiring elevated access.
+- Manage Microsoft 365 user accounts, licenses, and access permissions for business clients; support account provisioning, credential issues, and access troubleshooting through the M365 admin portal.
 
 ### Shift Manager | CVS Pharmacy | 2016 – Present
 
-- Supervised daily store operations and staff across shifts, coordinating task completion under time constraints
-- Handled customer escalations directly, resolving complaints calmly and professionally with a focus on first-contact resolution
-- Trained new employees on procedures and reinforced compliance with operational standards
-- Maintained accountability for financial procedures including cash reconciliation and register auditing
+- Supervised daily store operations and staff; handled customer escalations and maintained operational compliance across shifts.
+- Trained new employees and coordinated first-contact issue resolution in a high-volume retail environment.
 
 ---
 
 ## Projects
 
-### Linux Homelab Infrastructure | Personal Project | 2025 – Present
+### Home Network Infrastructure Lab | Personal Project | 2025 – Present
 
-*Self-hosted Linux server environment built on physical hardware to develop practical sysadmin and infrastructure skills.*
+- Deployed pfSense as a virtualized router/firewall using KVM/libvirt on a Lenovo host; configured WAN/LAN assignment, DHCP configuration and testing, and firewall rules validated in a lab VM prior to home network cutover.
+- Built a managed home network using a TP-Link TL-SG108PE PoE switch and Cisco AIR-AP2802I access point; configured wireless network via Mobility Express and validated client connectivity across wired and wireless segments.
+- Deployed Pi-hole with Unbound as a network-wide recursive DNS resolver; provides DNS filtering, local name resolution, and ad/tracker blocking across all network devices.
+- Designed and documented a VLAN segmentation architecture for guest, IoT, work/lab, and management network separation; topology, migration procedure, cutover plan, and rollback process documented in GitHub IT-Career repo — VLAN implementation in progress.
 
-- Installed and administered Ubuntu Server on repurposed Lenovo hardware, working through BIOS configuration, boot troubleshooting, and headless OS setup from scratch
-- Configured SSH for encrypted remote terminal access; deployed Tailscale (WireGuard-based VPN overlay) for secure off-network administration without exposing ports to the internet
-- Installed Docker Engine and deployed containerized services: Portainer (container management UI) and Jellyfin (self-hosted media server); resolved port conflicts, volume mount failures, and container permission errors
-- Configured persistent drive mounting using `/etc/fstab` with UUIDs; set up Samba (SMB) for local network file sharing accessible from Windows clients
-- Documented the full build — architecture diagrams, setup commands, and an 8-entry troubleshooting log (symptom → investigation → fix → lesson) — on GitHub
+### Linux Server / Virtualization Homelab | Personal Project | 2025 – Present
 
-**Technologies:** Ubuntu Server · Docker · Portainer · Tailscale · SSH · Samba · Bash · Git · GitHub
+- Configured Lenovo desktop as a KVM/libvirt virtualization host; provisioned storage pools for VM and ISO management and deployed pfSense as a lab VM for testing and validation prior to home network cutover.
+- Deployed and managed Docker containers using Portainer; self-hosted Jellyfin media server with persistent volume configuration and container lifecycle management.
+- Configured Samba SMB file shares for Windows-accessible network storage; set up persistent volume mounts via /etc/fstab for reliable storage management across reboots.
+- Configured SSH and VS Code Remote-SSH for secure remote server administration; manages Ubuntu Server, Docker containers, and file shares from any connected device.
 
 ---
 
 ## Community & Professional Development
 
 **Volunteer Staff** | Hack the Coast — Gulf Coast Cybersecurity Conference | May 2026
-Supported day-of operations for the inaugural regional cybersecurity conference in Pensacola, FL. Event featured 12 sessions and a CTF competition covering red/blue team operations, cloud security, OSINT, and cyber careers — organized by IT Gulf Coast in collaboration with BSides Pensacola and the DEF CON 850 community.
+Supported day-of operations for the inaugural regional cybersecurity conference in Pensacola, FL. Event featured sessions and a CTF competition covering red/blue team operations, cloud security, OSINT, and cyber careers — organized by IT Gulf Coast in collaboration with BSides Pensacola and the DEF CON 850 community.
 
 **Athlete** | Binghamton Bulldogs | 2017 – 2020
 Competed at a high level while representing the organization in community outreach and fundraising events.
+
+---
+
+*Last updated: June 2026 — Source of truth for all resume versions. See approved-resume-sections.md for bullet approval history.*
